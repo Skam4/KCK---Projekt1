@@ -42,13 +42,13 @@ internal class Menu
 
             Console.WriteLine("\n");
             Console.WriteLine("\n");
-            Console.WriteLine(new string(' ', JedenPlace) + "1. Rozpocznij gre");
+            Console.WriteLine(new string(' ', JedenPlace) + "1. Rozpocznij grę");
 
             Console.WriteLine("\n");
             Console.WriteLine(new string(' ', DwaPlace) + "2. Opcje");
 
             Console.WriteLine("\n");
-            Console.WriteLine(new string(' ', TrzyPlace) + "3. Wyjdz z gry");
+            Console.WriteLine(new string(' ', TrzyPlace) + "3. Wyjdź z gry");
 
             Thread.Sleep(300);
             Console.Clear();
@@ -68,13 +68,13 @@ internal class Menu
 
             Console.WriteLine("\n");
             Console.WriteLine("\n");
-            Console.WriteLine(new string(' ', JedenPlace) + "1. Rozpocznij gre");
+            Console.WriteLine(new string(' ', JedenPlace) + "1. Rozpocznij grę");
 
             Console.WriteLine("\n");
             Console.WriteLine(new string(' ', DwaPlace) + "2. Opcje");
 
             Console.WriteLine("\n");
-            Console.WriteLine(new string(' ', TrzyPlace) + "3. Wyjdz z gry");
+            Console.WriteLine(new string(' ', TrzyPlace) + "3. Wyjdź z gry");
 
             Thread.Sleep(300);
             Console.Clear();
@@ -93,7 +93,7 @@ internal class Menu
                 }
                 if (przycisk.Key == ConsoleKey.D3) //Jeżeli wciśniemy 3 to wyjdź z gry
                 {
-                    Poziom1 poziom = new Poziom1();
+                    System.Environment.Exit(0);
                 }
 
             }

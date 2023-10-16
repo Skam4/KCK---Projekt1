@@ -16,22 +16,41 @@ internal class Poziom3
     private ConsoleKeyInfo przycisk;
     char[] znakiPliku;
 
+    int czasownik = 0;  
+
+    private int EnemyX1 = 40;
+    private int EnemyY1 = 7;
+
+    private int EnemyX2 = 90;
+    private int EnemyY2 = 7;
+
+    private int EnemyX3 = 25;
+    private int EnemyY3 = 9;
+
+    private int EnemyX4 = 60;
+    private int EnemyY4 = 9;
+
     public Poziom3()
     {
         Console.Clear();
 
-        Console.WriteLine("\n");
-        Console.WriteLine("\n");
-
-        string sciezkaDoPliku = "C:/Users/ostat/Desktop/KCKPoziom2.txt";
+        string sciezkaDoPliku = "C:/Users/ostat/Desktop/KCKPoziom3.txt";
 
         string zawartoscPliku = File.ReadAllText(sciezkaDoPliku);
 
         znakiPliku = zawartoscPliku.ToCharArray();
 
+        int pom = 0; //zmienna która liczy ilość wgranych znaków z plików
+
         foreach (char c in znakiPliku)
         {
+            pom++;
+            if ((pom >= 175 && pom <= 200) || (pom >= 285 && pom <= 302))
+            {
+                Console.ForegroundColor = ConsoleColor.Green; //Brama do drugiego poziomu jst koloru zielonego
+            }
             Console.Write(c);
+            Console.ResetColor();
         }
 
         Rysuj();
@@ -53,9 +72,128 @@ internal class Poziom3
         Console.Write("██");
         Console.SetCursorPosition(0, 0);
 
+        //Ustaw pozycję pierwszego przeciwnika i narysują postać
+        Console.SetCursorPosition(EnemyX1, EnemyY1);
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.Write("██");
+        Console.ResetColor();
+        Console.SetCursorPosition(0, 0);
+
+        //Ustaw pozycję drugiego przeciwnika i narysują postać
+        Console.SetCursorPosition(EnemyX2, EnemyY2);
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.Write("██");
+        Console.ResetColor();
+        Console.SetCursorPosition(0, 0);
+
+        //Ustaw pozycję trzeciego przeciwnika i narysują postać
+        Console.SetCursorPosition(EnemyX3, EnemyY3);
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.Write("██");
+        Console.ResetColor();
+        Console.SetCursorPosition(0, 0);
+
+        //Ustaw pozycję czwartego przeciwnika i narysują postać
+        Console.SetCursorPosition(EnemyX4, EnemyY4);
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.Write("██");
+        Console.ResetColor();
+        Console.SetCursorPosition(0, 0);
+
         for (; ; )
         {
             Thread.Sleep(1);
+
+            czasownik++;
+            if(czasownik >= 10000) { czasownik = 0; }
+
+            //Przeciwnik pierwszy:
+            if(czasownik % 30 == 0)
+            {
+                Console.SetCursorPosition(EnemyX1, EnemyY1);
+                Console.Write("  ");
+
+                if (postac.GetX() > EnemyX1)
+                    EnemyX1++;
+                if (postac.GetX() < EnemyX1)
+                    EnemyX1--;
+                if(postac.GetY() > EnemyY1)
+                    EnemyY1++;
+                if(postac.GetY()  < EnemyY1)
+                    EnemyY1--;
+
+                Console.SetCursorPosition(EnemyX1, EnemyY1);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("██");
+                Console.ResetColor();
+                Console.SetCursorPosition(0, 0);
+            }
+
+            //Przeciwnik drugi:
+            if (czasownik % 40 == 0)
+            {
+                Console.SetCursorPosition(EnemyX2, EnemyY2);
+                Console.Write("  ");
+
+                if (postac.GetX() > EnemyX2)
+                    EnemyX2++;
+                if (postac.GetX() < EnemyX2)
+                    EnemyX2--;
+                if (postac.GetY() > EnemyY2)
+                    EnemyY2++;
+                if (postac.GetY() < EnemyY2)
+                    EnemyY2--;
+
+                Console.SetCursorPosition(EnemyX2, EnemyY2);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("██");
+                Console.ResetColor();
+                Console.SetCursorPosition(0, 0);
+            }
+
+            //Przeciwnik trzeci:
+            if (czasownik % 35 == 0)
+            {
+                Console.SetCursorPosition(EnemyX3, EnemyY3);
+                Console.Write("  ");
+
+                if (postac.GetX() > EnemyX3)
+                    EnemyX3++;
+                if (postac.GetX() < EnemyX3)
+                    EnemyX3--;
+                if (postac.GetY() > EnemyY3)
+                    EnemyY3++;
+                if (postac.GetY() < EnemyY3)
+                    EnemyY3--;
+
+                Console.SetCursorPosition(EnemyX3, EnemyY3);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("██");
+                Console.ResetColor();
+                Console.SetCursorPosition(0, 0);
+            }
+
+            //Przeciwnik czwarty:
+            if (czasownik % 45 == 0)
+            {
+                Console.SetCursorPosition(EnemyX4, EnemyY4);
+                Console.Write("  ");
+
+                if (postac.GetX() > EnemyX4)
+                    EnemyX4++;
+                if (postac.GetX() < EnemyX4)
+                    EnemyX4--;
+                if (postac.GetY() > EnemyY4)
+                    EnemyY4++;
+                if (postac.GetY() < EnemyY4)
+                    EnemyY4--;
+
+                Console.SetCursorPosition(EnemyX4, EnemyY4);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("██");
+                Console.ResetColor();
+                Console.SetCursorPosition(0, 0);
+            }
 
             if (Console.KeyAvailable) //Sprawdza czy jest wciśnięty przycisk
             {
@@ -66,7 +204,7 @@ internal class Poziom3
 
                 if (przycisk.Key == ConsoleKey.UpArrow || przycisk.Key == ConsoleKey.W) //Jeżeli naciśnięta strzałka w górę lub "w"
                 {
-                    if (postac.GetY() >= 6) //Górna granica mapy
+                    if (postac.GetY() >= 4) //Górna granica mapy
                     {
                         postac = new Postac(postac.GetX(), postac.GetY() - 1); //Przzesuń postać w górę
                     }
@@ -100,11 +238,43 @@ internal class Poziom3
             Console.SetCursorPosition(0, 0);
 
             //Jeżeli postać jest na kordynatach bramy do poziomu numer 2
-            if (postac.GetX() >= 64 && postac.GetX() <= 66 && postac.GetY() >= 5 && postac.GetY() <= 6)
+            if (postac.GetX() >= 64 && postac.GetX() <= 66 && postac.GetY() >= 3 && postac.GetY() <= 4)
             {
-                Poziom3 poziom3 = new Poziom3(); //Przenieś do poziomu trzeciego
+                Poziom4 poziom4 = new Poziom4(); //Przenieś do poziomu trzeciego
+            }
+
+            if (CzyTrafiony())
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.SetCursorPosition(40, 15);
+                Console.WriteLine("Dopadł cie"); //Komunikat o śmierci gracza
+                Console.SetCursorPosition(40, 16);
+                Console.WriteLine("*Wciśnij ESC aby wrócić do menu*");
+                Console.ResetColor();
+                for (; ; )
+                {
+                    if (Console.KeyAvailable)
+                    {
+                        przycisk = Console.ReadKey(true);
+
+                        if (przycisk.Key == ConsoleKey.Escape)
+                        {
+                            Menu menu = new Menu();
+                        }
+                    }
+                }
+
             }
         }
+    }
+
+    public bool CzyTrafiony()
+    {
+        if ((EnemyX1 == postac.GetX() && EnemyY1 == postac.GetY()) || (EnemyX2 == postac.GetX() && EnemyY2 == postac.GetY()) || (EnemyX3 == postac.GetX() && EnemyY3 == postac.GetY()) || (EnemyX4 == postac.GetX() && EnemyY4 == postac.GetY()))
+        {
+            return true;
+        }
+        return false;
     }
 }
 

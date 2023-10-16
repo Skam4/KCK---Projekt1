@@ -152,7 +152,7 @@ internal class Poziom1
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.SetCursorPosition(40, 15);
-                    Console.WriteLine("Dedles"); //Komunikat o śmierci gracza
+                    Console.WriteLine("Wpadłeś do lawy"); //Komunikat o śmierci gracza
                     Console.SetCursorPosition(40, 16);
                     Console.WriteLine("*Wcisnij ESC aby wrocic do menu*");
                     Console.ResetColor();

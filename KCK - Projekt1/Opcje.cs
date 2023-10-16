@@ -3,10 +3,99 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Media;
+using System.Windows;
+using NAudio.Wave;
 
 internal class Opcje
 {
+    private ConsoleKeyInfo przycisk;
+    private byte jeden = 0; //Zmienna pomocnicza, określająca czy opcja numer jeden jest włączona czy wyłączona
+    private byte dwa = 0;
 
+    static int OryginalnaSzerokoscKonsoli = Console.WindowWidth;
+    static int OryginalnaDlugoscKonsoli = Console.WindowHeight;
+
+    public Opcje()
+    {
+        Console.WriteLine("\n");
+        Console.WriteLine("Naciśnij przycisk aby zmienić opcje:");
+        Console.WriteLine("\n");
+        Console.WriteLine("1. Włącz muzykę []");
+        Console.WriteLine("\n");
+        Console.WriteLine("2. Włącz fullscreena []");
+        Console.WriteLine("\n");
+        Console.WriteLine("\n");
+        Console.WriteLine("\n");
+        Console.WriteLine("Wciśnij 0 aby wrócić do menu.");
+
+        for (; ; )
+        {
+            if (Console.KeyAvailable) //Sprawdza czy jest wciśnięty przycisk
+            {
+                przycisk = Console.ReadKey(true); //Przypisanie przycisku który klikneło się na klawiaturze
+
+                if (przycisk.Key == ConsoleKey.D1)
+                {
+                    if (jeden == 0)
+                    {
+                        Console.SetCursorPosition(16, 5);
+                        Console.Write("██");
+                        Console.SetCursorPosition(0, 0);
+                        jeden = 1;
+                        //GrajMuzyke("muzka.mp3");
+                    }
+                    else if (jeden == 1)
+                    {
+                        jeden = 0;
+                        Console.SetCursorPosition(16, 5);
+                        Console.Write("[]");
+                        Console.SetCursorPosition(0, 0);
+                    }
+                }
+
+                if (przycisk.Key == ConsoleKey.D2)
+                {
+                    if (dwa == 0)
+                    {
+                        Console.SetCursorPosition(21, 8);
+                        Console.Write("██");
+                        Console.SetCursorPosition(0, 0);
+                        dwa = 1;
+
+                        Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
+                        Console.SetBufferSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
+                        Console.WindowHeight = Console.LargestWindowHeight;
+                        Console.WindowWidth = Console.LargestWindowWidth;
+                        Console.SetWindowPosition(0, 0);
+
+                    }
+                    else if (dwa == 1)
+                    {
+                        dwa = 0;
+                        Console.SetCursorPosition(21, 8);
+                        Console.Write("[]");
+                        Console.SetCursorPosition(0, 0);
+
+                        Console.SetWindowSize(OryginalnaSzerokoscKonsoli, OryginalnaDlugoscKonsoli);
+                        Console.SetBufferSize(OryginalnaSzerokoscKonsoli, OryginalnaDlugoscKonsoli);
+                        Console.WindowHeight = OryginalnaDlugoscKonsoli;
+                        Console.WindowWidth = OryginalnaSzerokoscKonsoli;
+                    }
+                }
+
+                if(przycisk.Key == ConsoleKey.D0)
+                {
+                    Menu menu = new Menu();
+                    
+                }
+            }
+        }
+    }
+
+    public static void GrajMuzyke(string filepath)
+    {
+        SoundPlayer musicplayer = new SoundPlayer();
+    }
 }
 

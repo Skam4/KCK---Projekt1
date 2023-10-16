@@ -38,18 +38,23 @@ internal class Poziom2
     {
         Console.Clear();
 
-        Console.WriteLine("\n");
-        Console.WriteLine("\n");
-
         string sciezkaDoPliku = "C:/Users/ostat/Desktop/KCKPoziom2.txt";
 
         string zawartoscPliku = File.ReadAllText(sciezkaDoPliku);
 
         znakiPliku = zawartoscPliku.ToCharArray();
 
+        int pom = 0; //zmienna która liczy ilość wgranych znaków z plików
+
         foreach (char c in znakiPliku)
         {
+            pom++;
+            if((pom >= 175 && pom <= 200) || (pom >= 285 && pom <= 302))
+            {
+                Console.ForegroundColor = ConsoleColor.Green; //Brama do drugiego poziomu jst koloru zielonego
+            }
             Console.Write(c);
+            Console.ResetColor();
         }
 
         Rysuj();
@@ -63,12 +68,11 @@ internal class Poziom2
             Console.WriteLine("  / _ \\___ ___ (____  __ _    |_  |");
             Console.WriteLine(" / ___/ _ /_ // / _ \\/  ' \\  / __/ ");
             Console.WriteLine("/_/   \\___/__/_/\\___/_/_/_/ /____/ ");
-            Console.WriteLine("                                   ");
 
         //Ustaw pozycję postaci i narysują postać
         Console.SetCursorPosition(postac.GetX(), postac.GetY());
             Console.Write("██");
-            Console.SetCursorPosition(0, 0);
+            Console.SetCursorPosition(0, 10);
 
             for (; ; )
             {
@@ -247,7 +251,7 @@ internal class Poziom2
 
                     if (przycisk.Key == ConsoleKey.UpArrow || przycisk.Key == ConsoleKey.W) //Jeżeli naciśnięta strzałka w górę lub "w"
                     {
-                        if (postac.GetY() >= 6) //Górna granica mapy
+                        if (postac.GetY() >= 4) //Górna granica mapy
                         {
                             postac = new Postac(postac.GetX(), postac.GetY() - 1); //Przzesuń postać w górę
                         }
@@ -278,22 +282,22 @@ internal class Poziom2
             //Ustaw pozycję postaci i narysują postać
             Console.SetCursorPosition(postac.GetX(), postac.GetY());
             Console.Write("██");
-            Console.SetCursorPosition(0, 0);
+            Console.SetCursorPosition(0, 10);
 
             //Jeżeli postać jest na kordynatach bramy do poziomu numer 2
-            if (postac.GetX() >= 64 && postac.GetX() <= 66 && postac.GetY() >= 5 && postac.GetY() <= 6)
+            if (postac.GetX() >= 64 && postac.GetX() <= 66 && postac.GetY() >= 3 && postac.GetY() <= 4)
                 {
                     Poziom3 poziom3 = new Poziom3(); //Przenieś do poziomu trzeciego
                 }
 
-            //Jeżeli postać znajdzie się na terytorium Strzałka1 to zakończ grę
+            //Jeżeli postać znajdzie się na terytorium Strzałka to zakończ grę
             if (CzyTrafiony())
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.SetCursorPosition(40, 15);
-                Console.WriteLine("Dedles"); //Komunikat o śmierci gracza
+                Console.WriteLine("Zostałeś trafiony"); //Komunikat o śmierci gracza
                 Console.SetCursorPosition(40, 16);
-                Console.WriteLine("*Wcisnij ESC aby wrocic do menu*");
+                Console.WriteLine("*Wciśnij ESC aby wrócić do menu*");
                 Console.ResetColor();
                 for (; ; )
                 {

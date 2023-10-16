@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Text;
 
 class Program
 {
     static void Main()
     {
-        Console.SetWindowSize(120, 40); // Ustaw rozmiar konsoli na 80 kolumn x 40 wierszy
-        Console.SetBufferSize(120, 40); // Ustaw rozmiar bufora konsoli
+        Console.OutputEncoding = Encoding.UTF8;
+
+        Console.SetWindowSize(120, 45); // Ustaw rozmiar konsoli na 120 kolumn x 45 wierszy
+        Console.SetBufferSize(120, 45); // Ustaw rozmiar bufora konsoli
 
         Menu class1 = new Menu();
 
