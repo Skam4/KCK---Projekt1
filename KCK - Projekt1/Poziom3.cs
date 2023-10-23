@@ -7,6 +7,7 @@ using System.Runtime.Serialization.Formatters;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Diagnostics;
 
 
 internal class Poziom3
@@ -15,6 +16,8 @@ internal class Poziom3
     Postac postac = new Postac(60, 30);
     private ConsoleKeyInfo przycisk;
     char[] znakiPliku;
+
+    private long czas;
 
     int czasownik = 0;  
 
@@ -30,9 +33,15 @@ internal class Poziom3
     private int EnemyX4 = 60;
     private int EnemyY4 = 9;
 
-    public Poziom3()
+    private Stopwatch stoper = new Stopwatch();
+
+    public Poziom3(long czas)
     {
         Console.Clear();
+
+        this.czas = czas;
+
+        stoper.Start();
 
         string sciezkaDoPliku = "C:/Users/ostat/Desktop/KCKPoziom3.txt";
 
@@ -54,7 +63,7 @@ internal class Poziom3
         }
 
         Rysuj();
-
+        this.czas = czas;
     }
 
     public void Rysuj()
@@ -66,6 +75,11 @@ internal class Poziom3
         Console.WriteLine(" / ___/ _ /_ // / _ \\/  ' \\  _/_ < ");
         Console.WriteLine("/_/   \\___/__/_/\\___/_/_/_/ /____/ ");
         Console.WriteLine("                                   ");
+
+        Console.SetCursorPosition(35, 1);
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.Write("NIE DAJ SIĘ ZŁAPAĆ CZERWONYM PRZECIWNIKOM! UWAGA! ONI CIĘ GONIĄ!");
+        Console.ResetColor();
 
         //Ustaw pozycję postaci i narysują postać
         Console.SetCursorPosition(postac.GetX(), postac.GetY());
@@ -240,26 +254,46 @@ internal class Poziom3
             //Jeżeli postać jest na kordynatach bramy do poziomu numer 2
             if (postac.GetX() >= 64 && postac.GetX() <= 66 && postac.GetY() >= 3 && postac.GetY() <= 4)
             {
-                Poziom4 poziom4 = new Poziom4(); //Przenieś do poziomu trzeciego
+                this.czas += stoper.ElapsedMilliseconds;
+                stoper.Stop();
+                Wyniki wynik = new Wyniki(czas); //Przenieś do Wyników
             }
 
             if (CzyTrafiony())
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.SetCursorPosition(40, 15);
+                Console.SetCursorPosition(54, 15);
                 Console.WriteLine("Dopadł cie"); //Komunikat o śmierci gracza
-                Console.SetCursorPosition(40, 16);
-                Console.WriteLine("*Wciśnij ESC aby wrócić do menu*");
-                Console.ResetColor();
+                Console.SetCursorPosition(50, 16);
+
+                this.czas += stoper.ElapsedMilliseconds;
+                stoper.Stop();
+
+                int liczCzas = 0; //zmienna pomocnicza, do migania wiadomości
+
                 for (; ; )
                 {
+                    liczCzas++;
+                    if (liczCzas % 13000 == 0)
+                    {
+                        Console.SetCursorPosition(50, 16);
+                        Console.WriteLine("                             ");
+                    }
+                    if (liczCzas % 15000 == 0)
+                    {
+                        Console.SetCursorPosition(50, 16);
+                        Console.WriteLine("*Wcisnij ESC aby kontynuować*");
+                        liczCzas = 0;
+                    }
+
                     if (Console.KeyAvailable)
                     {
                         przycisk = Console.ReadKey(true);
 
                         if (przycisk.Key == ConsoleKey.Escape)
                         {
-                            Menu menu = new Menu();
+                            Console.ResetColor();
+                            Poziom3 poziom = new Poziom3(czas);
                         }
                     }
                 }

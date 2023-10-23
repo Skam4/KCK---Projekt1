@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KCK___Projekt1;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,25 +12,45 @@ internal class Menu
 
     public Menu()
     {
-        Console.WriteLine("\n");
-        Console.WriteLine("\n");
-        Console.WriteLine("\n");
-
+        Console.Clear();
         //Zmienne dotyczące MENU
         int LogoLenght = 65; //Długość loga gry
         int LogoPlace = (120 - LogoLenght) / 2; //Ilość spacji do środka konsoli
         int JedenLenght = 14; //Długość Pierwszej opcji w menu
         int JedenPlace = (120 - JedenLenght) / 2;
-        int DwaLenght = 8; //Długość opcji numer 2 w menu
+        int DwaLenght = 6; //Długość opcji numer 2 w menu
         int DwaPlace = (120 - DwaLenght) / 2; //obliczamy miejsce w poziomie według długości liter
-        int TrzyLenght = 11;
+        int TrzyLenght = 8;
         int TrzyPlace = (120 - TrzyLenght) / 2;
+        int CzteryLenght = 9;
+        int CzteryPlace = (120 - CzteryLenght) / 2;
+        int PiecLenght = 11;
+        int PiecPlace = (120 - PiecLenght) / 2;
+
+        Console.SetCursorPosition(0, 16);
+        Console.WriteLine("\n");
+        Console.WriteLine(new string(' ', JedenPlace) + "1. Rozpocznij grę");
+
+        Console.WriteLine("\n");
+        Console.WriteLine(new string(' ', DwaPlace) + "2. Opcje");
+
+        Console.WriteLine("\n");
+        Console.WriteLine(new string(' ', TrzyPlace) + "3. Ranking");
+
+        Console.WriteLine("\n");
+        Console.WriteLine(new string(' ', CzteryPlace) + "4. Jak Grać?");
+
+        Console.WriteLine("\n");
+        Console.WriteLine(new string(' ', PiecPlace) + "5. Wyjdź z gry");
+        Console.SetCursorPosition(0, 0);
+
+        Console.WriteLine("\n");
+        Console.WriteLine("\n");
+        Console.WriteLine("\n");
 
         for (; ; )
         {
-            Console.WriteLine("\n");
-            Console.WriteLine("\n");
-            Console.WriteLine("\n");
+            Console.SetCursorPosition(0, 3);
 
             Console.Write(new string(' ', LogoPlace)); Console.WriteLine("  ______                                                      ");
             Console.Write(new string(' ', LogoPlace)); Console.WriteLine(" |  ____|                                                     ");
@@ -42,20 +63,19 @@ internal class Menu
 
             Console.WriteLine("\n");
             Console.WriteLine("\n");
-            Console.WriteLine(new string(' ', JedenPlace) + "1. Rozpocznij grę");
-
-            Console.WriteLine("\n");
-            Console.WriteLine(new string(' ', DwaPlace) + "2. Opcje");
-
-            Console.WriteLine("\n");
-            Console.WriteLine(new string(' ', TrzyPlace) + "3. Wyjdź z gry");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("                                     Kliknij przycisk na klawiaturze aby wybrać opcję:");
+            Console.ResetColor();
 
             Thread.Sleep(300);
-            Console.Clear();
-
-            Console.WriteLine("\n");
-            Console.WriteLine("\n");
-            Console.WriteLine("\n");
+            Console.SetCursorPosition(0 , 3);
+            Console.WriteLine(new string(' ', LogoPlace * 4));
+            Console.WriteLine(new string(' ', LogoPlace * 4));
+            Console.WriteLine(new string(' ', LogoPlace * 4));
+            Console.WriteLine(new string(' ', LogoPlace * 4));
+            Console.WriteLine(new string(' ', LogoPlace * 4));
+            Console.WriteLine(new string(' ', LogoPlace * 4));
+            Console.SetCursorPosition(0, 3);
 
             Console.Write(new string(' ', LogoPlace + 1)); Console.WriteLine("   ______                                                      ");
             Console.Write(new string(' ', LogoPlace + 1)); Console.WriteLine("  |  ____|                                                     ");
@@ -68,16 +88,16 @@ internal class Menu
 
             Console.WriteLine("\n");
             Console.WriteLine("\n");
-            Console.WriteLine(new string(' ', JedenPlace) + "1. Rozpocznij grę");
-
-            Console.WriteLine("\n");
-            Console.WriteLine(new string(' ', DwaPlace) + "2. Opcje");
-
-            Console.WriteLine("\n");
-            Console.WriteLine(new string(' ', TrzyPlace) + "3. Wyjdź z gry");
-
+            Console.WriteLine("                                     Kliknij przycisk na klawiaturze aby wybrać opcję:");
             Thread.Sleep(300);
-            Console.Clear();
+            Console.SetCursorPosition(0, 3);
+            Console.WriteLine(new string(' ', LogoPlace * 4));
+            Console.WriteLine(new string(' ', LogoPlace * 4));
+            Console.WriteLine(new string(' ', LogoPlace * 4));
+            Console.WriteLine(new string(' ', LogoPlace * 4));
+            Console.WriteLine(new string(' ', LogoPlace * 4));
+            Console.WriteLine(new string(' ', LogoPlace * 4));
+            Console.SetCursorPosition(0, 3);
 
             if (Console.KeyAvailable) //Sprawdza czy jest wciśnięty przycisk
             {
@@ -86,14 +106,25 @@ internal class Menu
                 if(przycisk.Key == ConsoleKey.D1) //Jeżeli wciśniemy 1 to idź do poziomu 1
                 {
                     Poziom1 poziom = new Poziom1(); 
+                    //Wyniki wyniki = new Wyniki(100);
                 }
                 if (przycisk.Key == ConsoleKey.D2) //Jeżeli wciśniemy 2 to idź do opcji
                 {
                     Opcje opcje = new Opcje();
                 }
-                if (przycisk.Key == ConsoleKey.D3) //Jeżeli wciśniemy 3 to wyjdź z gry
+                if (przycisk.Key == ConsoleKey.D3) //Jeżeli wciśniemy 2 to idź do opcji
                 {
+                    TabelaWynikow tabela = new TabelaWynikow();
+                }
+                if (przycisk.Key == ConsoleKey.D4) //Jeżeli wciśniemy 4 to wyświetl instrukcję
+                {
+                    Instrukcja instrukcja = new Instrukcja();
+                }
+                if (przycisk.Key == ConsoleKey.D5) //Jeżeli wciśniemy 5 to wyjdź z gry
+                {
+                    Console.Clear();
                     System.Environment.Exit(0);
+                    Console.Clear();
                 }
 
             }

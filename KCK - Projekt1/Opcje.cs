@@ -13,21 +13,28 @@ internal class Opcje
     private byte jeden = 0; //Zmienna pomocnicza, określająca czy opcja numer jeden jest włączona czy wyłączona
     private byte dwa = 0;
 
-    static int OryginalnaSzerokoscKonsoli = Console.WindowWidth;
-    static int OryginalnaDlugoscKonsoli = Console.WindowHeight;
+    int OryginalnaSzerokoscKonsoli = Console.WindowWidth;
+    int OryginalnaDlugoscKonsoli = Console.WindowHeight;
+
+    public SoundPlayer player = new SoundPlayer();
 
     public Opcje()
     {
-        Console.WriteLine("\n");
-        Console.WriteLine("Naciśnij przycisk aby zmienić opcje:");
-        Console.WriteLine("\n");
-        Console.WriteLine("1. Włącz muzykę []");
-        Console.WriteLine("\n");
-        Console.WriteLine("2. Włącz fullscreena []");
+        Console.Clear();
+        Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine("\n");
         Console.WriteLine("\n");
+        Console.WriteLine("                                      Naciśnij przycisk aby zmienić opcje:");
+        Console.ResetColor();
         Console.WriteLine("\n");
-        Console.WriteLine("Wciśnij 0 aby wrócić do menu.");
+        Console.WriteLine("                                               1. Włącz muzykę []");
+        Console.WriteLine("\n");
+        Console.WriteLine("                                             2. Włącz fullscreena []");
+        Console.WriteLine("\n");
+        Console.WriteLine("\n");
+        Console.ForegroundColor= ConsoleColor.DarkYellow;
+        Console.WriteLine("                                         Wciśnij ESC aby wrócić do menu.");
+        Console.ResetColor();
 
         for (; ; )
         {
@@ -39,18 +46,19 @@ internal class Opcje
                 {
                     if (jeden == 0)
                     {
-                        Console.SetCursorPosition(16, 5);
+                        Console.SetCursorPosition(63, 7);
                         Console.Write("██");
                         Console.SetCursorPosition(0, 0);
                         jeden = 1;
-                        //GrajMuzyke("muzka.mp3");
+                        GrajMuzyke(); //Włącz muzykę
                     }
                     else if (jeden == 1)
                     {
                         jeden = 0;
-                        Console.SetCursorPosition(16, 5);
+                        Console.SetCursorPosition(63, 7);
                         Console.Write("[]");
                         Console.SetCursorPosition(0, 0);
+                        player.Stop(); //Wyłącz muzykę
                     }
                 }
 
@@ -58,7 +66,7 @@ internal class Opcje
                 {
                     if (dwa == 0)
                     {
-                        Console.SetCursorPosition(21, 8);
+                        Console.SetCursorPosition(66, 10);
                         Console.Write("██");
                         Console.SetCursorPosition(0, 0);
                         dwa = 1;
@@ -73,7 +81,7 @@ internal class Opcje
                     else if (dwa == 1)
                     {
                         dwa = 0;
-                        Console.SetCursorPosition(21, 8);
+                        Console.SetCursorPosition(66, 10);
                         Console.Write("[]");
                         Console.SetCursorPosition(0, 0);
 
@@ -84,7 +92,7 @@ internal class Opcje
                     }
                 }
 
-                if(przycisk.Key == ConsoleKey.D0)
+                if(przycisk.Key == ConsoleKey.Escape)
                 {
                     Menu menu = new Menu();
                     
@@ -93,9 +101,12 @@ internal class Opcje
         }
     }
 
-    public static void GrajMuzyke(string filepath)
+    public void GrajMuzyke()
     {
-        SoundPlayer musicplayer = new SoundPlayer();
+        player.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "muzyka.wav";
+        player.Play();
+
+
     }
 }
 

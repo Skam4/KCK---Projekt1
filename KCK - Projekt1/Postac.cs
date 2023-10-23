@@ -18,6 +18,7 @@ namespace KCK___Projekt1
         {
             Console.SetCursorPosition(PostacX, PostacY);
             Console.Write("  ");
+            Console.SetCursorPosition(0 ,0);
             this.PostacX = PostacX;
             this.PostacY = PostacY;
         }

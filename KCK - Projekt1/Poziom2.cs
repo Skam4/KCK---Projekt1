@@ -7,7 +7,8 @@ using System.Runtime.Serialization.Formatters;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-
+using System.Transactions;
+using System.Diagnostics;
 
 internal class Poziom2
 {
@@ -15,6 +16,9 @@ internal class Poziom2
     Postac postac = new Postac(60, 30);
     private ConsoleKeyInfo przycisk;
     char[] znakiPliku;
+
+    private long czas;
+
     int czas_strzalka = 0;
     int Strzalka1X = 109;
     int Strzalka1Y = 24;
@@ -34,9 +38,15 @@ internal class Poziom2
     int Strzalka8X = 21;
     int Strzalka8Y = 26;
 
-    public Poziom2()
+    private Stopwatch stoper = new Stopwatch();
+
+    public Poziom2(long czas)
     {
         Console.Clear();
+
+        stoper.Start();
+
+        this.czas = czas;
 
         string sciezkaDoPliku = "C:/Users/ostat/Desktop/KCKPoziom2.txt";
 
@@ -49,7 +59,7 @@ internal class Poziom2
         foreach (char c in znakiPliku)
         {
             pom++;
-            if((pom >= 175 && pom <= 200) || (pom >= 285 && pom <= 302))
+            if ((pom >= 175 && pom <= 200) || (pom >= 285 && pom <= 302))
             {
                 Console.ForegroundColor = ConsoleColor.Green; //Brama do drugiego poziomu jst koloru zielonego
             }
@@ -63,43 +73,49 @@ internal class Poziom2
 
     public void Rysuj()
     {
-            Console.WriteLine("\n");
-            Console.WriteLine("   ___          _              ___ ");
-            Console.WriteLine("  / _ \\___ ___ (____  __ _    |_  |");
-            Console.WriteLine(" / ___/ _ /_ // / _ \\/  ' \\  / __/ ");
-            Console.WriteLine("/_/   \\___/__/_/\\___/_/_/_/ /____/ ");
+        Console.WriteLine("\n");
+        Console.WriteLine("   ___          _              ___ ");
+        Console.WriteLine("  / _ \\___ ___ (____  __ _    |_  |");
+        Console.WriteLine(" / ___/ _ /_ // / _ \\/  ' \\  / __/ ");
+        Console.WriteLine("/_/   \\___/__/_/\\___/_/_/_/ /____/ ");
+
+        Console.SetCursorPosition(40, 1);
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.Write("UWAŻAJ NA CZERWONE STRZAŁKI! NIE DAJ SIĘ USTRZELIĆ!");
+        Console.ResetColor();
 
         //Ustaw pozycję postaci i narysują postać
         Console.SetCursorPosition(postac.GetX(), postac.GetY());
-            Console.Write("██");
-            Console.SetCursorPosition(0, 10);
+        Console.Write("██");
+        Console.SetCursorPosition(0, 10);
 
-            for (; ; )
+        for (; ; )
+        {
+            Thread.Sleep(1);
+            czas_strzalka++;
+            if (czas_strzalka >= 10000) { czas_strzalka = 0; }
+
+            if (czas_strzalka % 1 == 0)
             {
-                Thread.Sleep(1);
-                czas_strzalka++;
-                if(czas_strzalka >= 10000) { czas_strzalka = 0; }
+                Console.SetCursorPosition(Strzalka1X + 1, Strzalka1Y);
+                Console.Write(" ");
 
-                if (czas_strzalka % 1 == 0)
+                Strzalka1X--;
+
+                if (Strzalka1X == 20)
                 {
                     Console.SetCursorPosition(Strzalka1X + 1, Strzalka1Y);
                     Console.Write(" ");
-
-                    Strzalka1X--;
-
-                    if (Strzalka1X == 20)
-                    {
-                        Console.SetCursorPosition(Strzalka1X+1, Strzalka1Y);
-                        Console.Write(" ");
-                        Strzalka1X = 109;
-                    }
-
-                    Console.SetCursorPosition(Strzalka1X, Strzalka1Y); //Ustaw pozycję kursora na nową pozycję strzałki
-                    Console.ForegroundColor = ConsoleColor.Red; //Ustaw kolor czerowny
-                    Console.Write("<-"); //Narysuj strzłkę
-                    Console.ResetColor(); //Zresetuj ustawiony wcześniej kolor
-                    
+                    Strzalka1X = 109;
                 }
+
+                Console.SetCursorPosition(Strzalka1X, Strzalka1Y); //Ustaw pozycję kursora na nową pozycję strzałki
+                Console.ForegroundColor = ConsoleColor.Red; //Ustaw kolor czerowny
+                Console.Write("<-"); //Narysuj strzłkę
+                Console.ResetColor(); //Zresetuj ustawiony wcześniej kolor
+                Console.SetCursorPosition(0, 0);
+
+            }
             if (czas_strzalka % 2 == 0)
             {
                 Console.SetCursorPosition(Strzalka2X + 1, Strzalka2Y);
@@ -118,7 +134,7 @@ internal class Poziom2
                 Console.ForegroundColor = ConsoleColor.Red; //Ustaw kolor czerowny
                 Console.Write("<-"); //Narysuj strzłkę
                 Console.ResetColor(); //Zresetuj ustawiony wcześniej kolor
-
+                Console.SetCursorPosition(0, 0);
             }
             if (czas_strzalka % 3 == 0)
             {
@@ -138,7 +154,7 @@ internal class Poziom2
                 Console.ForegroundColor = ConsoleColor.Red; //Ustaw kolor czerowny
                 Console.Write("<-"); //Narysuj strzłkę
                 Console.ResetColor(); //Zresetuj ustawiony wcześniej kolor
-
+                Console.SetCursorPosition(0, 0);
             }
             if (czas_strzalka % 5 == 0)
             {
@@ -158,7 +174,7 @@ internal class Poziom2
                 Console.ForegroundColor = ConsoleColor.Red; //Ustaw kolor czerowny
                 Console.Write("<-"); //Narysuj strzłkę
                 Console.ResetColor(); //Zresetuj ustawiony wcześniej kolor
-
+                Console.SetCursorPosition(0, 0);
             }
 
             if (czas_strzalka % 4 == 0)
@@ -179,7 +195,7 @@ internal class Poziom2
                 Console.ForegroundColor = ConsoleColor.Red; //Ustaw kolor czerowny
                 Console.Write("->"); //Narysuj strzłkę
                 Console.ResetColor(); //Zresetuj ustawiony wcześniej kolor
-
+                Console.SetCursorPosition(0, 0);
             }
             if (czas_strzalka % 2 == 0)
             {
@@ -199,7 +215,7 @@ internal class Poziom2
                 Console.ForegroundColor = ConsoleColor.Red; //Ustaw kolor czerowny
                 Console.Write("->"); //Narysuj strzłkę
                 Console.ResetColor(); //Zresetuj ustawiony wcześniej kolor
-
+                Console.SetCursorPosition(0, 0);
             }
             if (czas_strzalka % 3 == 0)
             {
@@ -219,7 +235,7 @@ internal class Poziom2
                 Console.ForegroundColor = ConsoleColor.Red; //Ustaw kolor czerowny
                 Console.Write("->"); //Narysuj strzłkę
                 Console.ResetColor(); //Zresetuj ustawiony wcześniej kolor
-
+                Console.SetCursorPosition(0, 0);
             }
             if (czas_strzalka % 5 == 0)
             {
@@ -239,46 +255,46 @@ internal class Poziom2
                 Console.ForegroundColor = ConsoleColor.Red; //Ustaw kolor czerowny
                 Console.Write("->"); //Narysuj strzłkę
                 Console.ResetColor(); //Zresetuj ustawiony wcześniej kolor
-
+                Console.SetCursorPosition(0, 0);
             }
 
             if (Console.KeyAvailable) //Sprawdza czy jest wciśnięty przycisk
+            {
+                przycisk = Console.ReadKey(true); //Przypisanie przycisku który klikneło się na klawiaturze
+
+                Console.SetCursorPosition(postac.GetX(), postac.GetY());
+                Console.Write("  ");
+
+                if (przycisk.Key == ConsoleKey.UpArrow || przycisk.Key == ConsoleKey.W) //Jeżeli naciśnięta strzałka w górę lub "w"
                 {
-                    przycisk = Console.ReadKey(true); //Przypisanie przycisku który klikneło się na klawiaturze
-
-                    Console.SetCursorPosition(postac.GetX(), postac.GetY());
-                    Console.Write("  ");
-
-                    if (przycisk.Key == ConsoleKey.UpArrow || przycisk.Key == ConsoleKey.W) //Jeżeli naciśnięta strzałka w górę lub "w"
+                    if (postac.GetY() >= 4) //Górna granica mapy
                     {
-                        if (postac.GetY() >= 4) //Górna granica mapy
-                        {
-                            postac = new Postac(postac.GetX(), postac.GetY() - 1); //Przzesuń postać w górę
-                        }
+                        postac = new Postac(postac.GetX(), postac.GetY() - 1); //Przzesuń postać w górę
                     }
-                    if (przycisk.Key == ConsoleKey.DownArrow || przycisk.Key == ConsoleKey.S) //Jeżeli naciśnięta strzałka w dół lub "s"
-                    {
-                        if (postac.GetY() <= 31) //Dolna granica mapy
-                        {
-                            postac = new Postac(postac.GetX(), postac.GetY() + 1); //Przesuń postać w dół
-                        }
-                    }
-                    if (przycisk.Key == ConsoleKey.LeftArrow || przycisk.Key == ConsoleKey.A) //Jeżeli naciśnięta strzałka w lewo lub "a"
-                    {
-                        if (postac.GetX() >= 21) //Lewa granica mapy
-                        {
-                            postac = new Postac(postac.GetX() - 1, postac.GetY()); //Przesuń postać w lewo
-                        }
-                    }
-                    if (przycisk.Key == ConsoleKey.RightArrow || przycisk.Key == ConsoleKey.D) //Jeżeli naciśnięta strzałka w prawo lub "d"
-                    {
-                        if (postac.GetX() <= 109) //Prawa granica mapy
-                        {
-                            postac = new Postac(postac.GetX() + 1, postac.GetY()); //Przesuń postać w prawo
-                        }
-                    }
-                    
                 }
+                if (przycisk.Key == ConsoleKey.DownArrow || przycisk.Key == ConsoleKey.S) //Jeżeli naciśnięta strzałka w dół lub "s"
+                {
+                    if (postac.GetY() <= 31) //Dolna granica mapy
+                    {
+                        postac = new Postac(postac.GetX(), postac.GetY() + 1); //Przesuń postać w dół
+                    }
+                }
+                if (przycisk.Key == ConsoleKey.LeftArrow || przycisk.Key == ConsoleKey.A) //Jeżeli naciśnięta strzałka w lewo lub "a"
+                {
+                    if (postac.GetX() >= 21) //Lewa granica mapy
+                    {
+                        postac = new Postac(postac.GetX() - 1, postac.GetY()); //Przesuń postać w lewo
+                    }
+                }
+                if (przycisk.Key == ConsoleKey.RightArrow || przycisk.Key == ConsoleKey.D) //Jeżeli naciśnięta strzałka w prawo lub "d"
+                {
+                    if (postac.GetX() <= 109) //Prawa granica mapy
+                    {
+                        postac = new Postac(postac.GetX() + 1, postac.GetY()); //Przesuń postać w prawo
+                    }
+                }
+
+            }
             //Ustaw pozycję postaci i narysują postać
             Console.SetCursorPosition(postac.GetX(), postac.GetY());
             Console.Write("██");
@@ -286,28 +302,49 @@ internal class Poziom2
 
             //Jeżeli postać jest na kordynatach bramy do poziomu numer 2
             if (postac.GetX() >= 64 && postac.GetX() <= 66 && postac.GetY() >= 3 && postac.GetY() <= 4)
-                {
-                    Poziom3 poziom3 = new Poziom3(); //Przenieś do poziomu trzeciego
-                }
+            {
+                this.czas += stoper.ElapsedMilliseconds;
+                stoper.Stop();
+                Poziom3 poziom3 = new Poziom3(czas); //Przenieś do poziomu trzeciego
+            }
 
             //Jeżeli postać znajdzie się na terytorium Strzałka to zakończ grę
             if (CzyTrafiony())
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.SetCursorPosition(40, 15);
+                Console.SetCursorPosition(54, 15);
                 Console.WriteLine("Zostałeś trafiony"); //Komunikat o śmierci gracza
-                Console.SetCursorPosition(40, 16);
-                Console.WriteLine("*Wciśnij ESC aby wrócić do menu*");
-                Console.ResetColor();
+                Console.SetCursorPosition(50, 16);
+                Console.WriteLine("*Wcisnij ESC aby kontynuować*");
+
+                this.czas += stoper.ElapsedMilliseconds;
+                stoper.Stop();
+
+                int liczCzas = 0; //zmienna pomocnicza, do migania wiadomości
+
                 for (; ; )
                 {
+                    liczCzas++;
+                    if (liczCzas % 13000 == 0)
+                    {
+                        Console.SetCursorPosition(50, 16);
+                        Console.WriteLine("                             ");
+                    }
+                    if (liczCzas % 15000 == 0)
+                    {
+                        Console.SetCursorPosition(50, 16);
+                        Console.WriteLine("*Wcisnij ESC aby kontynuować*");
+                        liczCzas = 0;
+                    }
+
                     if (Console.KeyAvailable)
                     {
                         przycisk = Console.ReadKey(true);
 
                         if (przycisk.Key == ConsoleKey.Escape)
                         {
-                            Menu menu = new Menu();
+                            Console.ResetColor();
+                            Poziom2 poziom = new Poziom2(czas);
                         }
                     }
                 }
@@ -318,7 +355,7 @@ internal class Poziom2
 
     public bool CzyTrafiony()
     {
-        if ((Strzalka1X == postac.GetX() && Strzalka1Y == postac.GetY()) || ((Strzalka2X == postac.GetX() && Strzalka2Y == postac.GetY())) || (Strzalka3X == postac.GetX() && Strzalka3Y == postac.GetY()) || (Strzalka4X == postac.GetX() && Strzalka4Y == postac.GetY()) || (Strzalka5X+1 == postac.GetX() && Strzalka5Y == postac.GetY()) || ((Strzalka6X+1 == postac.GetX() && Strzalka6Y == postac.GetY())) || (Strzalka7X+1 == postac.GetX() && Strzalka7Y == postac.GetY()) || (Strzalka8X+1 == postac.GetX() && Strzalka8Y == postac.GetY()))
+        if ((Strzalka1X == postac.GetX() && Strzalka1Y == postac.GetY()) || ((Strzalka2X == postac.GetX() && Strzalka2Y == postac.GetY())) || (Strzalka3X == postac.GetX() && Strzalka3Y == postac.GetY()) || (Strzalka4X == postac.GetX() && Strzalka4Y == postac.GetY()) || (Strzalka5X + 1 == postac.GetX() && Strzalka5Y == postac.GetY()) || ((Strzalka6X + 1 == postac.GetX() && Strzalka6Y == postac.GetY())) || (Strzalka7X + 1 == postac.GetX() && Strzalka7Y == postac.GetY()) || (Strzalka8X + 1 == postac.GetX() && Strzalka8Y == postac.GetY()))
         {
             return true;
         }

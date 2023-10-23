@@ -1,23 +1,30 @@
 ﻿using KCK___Projekt1;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization.Formatters;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
+using System.Diagnostics;
 
 
 internal class Poziom1
 {
 
-    Postac postac = new Postac(60,30);
+    Postac postac = new Postac(60, 30);
     private ConsoleKeyInfo przycisk;
+    private Stopwatch stoper = new Stopwatch();
+    long czas;
 
     public Poziom1()
     {
-            Rysuj();
-        
+        stoper.Start();
+        Rysuj();
+
     }
 
     public void Rysuj()
@@ -136,126 +143,147 @@ internal class Poziom1
         Console.WriteLine("/_/   \\___/__/_/\\___/_/_/_/  /_/  ");
         Console.WriteLine("                                  ");
 
-            
 
-            for (; ; )
+        Console.SetCursorPosition(45, 2);
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.Write("UNIKAJ CZERWONEJ LAWY! NIE WPADNIJ DO NIEJ!");
+        Console.ResetColor();
+
+        for (; ; )
+        {
+            Thread.Sleep(1);
+
+            //Ustaw pozycję postaci i narysują postać
+            Console.SetCursorPosition(postac.GetX(), postac.GetY());
+            Console.Write("██");
+            Console.SetCursorPosition(0, 0);
+
+            //Jeżeli postać znajdzie się na terytorium lavy to zakończ grę
+            if ((postac.GetX() >= 22 && postac.GetX() <= 30 && postac.GetY() >= 23 && postac.GetY() <= 29) || (postac.GetX() >= 102 && postac.GetX() <= 110 && postac.GetY() >= 22 && postac.GetY() <= 30) || ((postac.GetX() >= 49 && postac.GetX() <= 66 && postac.GetY() >= 13 && postac.GetY() <= 22)))
             {
-                Thread.Sleep(1);
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.SetCursorPosition(54, 15);
+                Console.WriteLine("Wpadłeś do lawy"); //Komunikat o śmierci gracza
+                Console.SetCursorPosition(50, 16);
+                Console.WriteLine("*Wcisnij ESC aby kontynuować*");
 
-                //Ustaw pozycję postaci i narysują postać
-                Console.SetCursorPosition(postac.GetX(), postac.GetY());
-                Console.Write("██");
-                Console.SetCursorPosition(0, 0);
+                czas += stoper.ElapsedMilliseconds;
+                stoper.Stop();
 
-                //Jeżeli postać znajdzie się na terytorium lavy to zakończ grę
-                if ((postac.GetX() >= 22 && postac.GetX() <= 30 && postac.GetY() >= 23 && postac.GetY() <= 29) || (postac.GetX() >= 102 && postac.GetX() <= 110 && postac.GetY() >= 22 && postac.GetY() <= 30) || ((postac.GetX() >= 49 && postac.GetX() <= 66 && postac.GetY() >= 13 && postac.GetY() <= 22)))
+                int liczCzas = 0; //zmienna pomocnicza, do migania wiadomości
+
+                for (; ; )
                 {
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.SetCursorPosition(40, 15);
-                    Console.WriteLine("Wpadłeś do lawy"); //Komunikat o śmierci gracza
-                    Console.SetCursorPosition(40, 16);
-                    Console.WriteLine("*Wcisnij ESC aby wrocic do menu*");
-                    Console.ResetColor();
-                    for (; ; )
-                    {
-                        if (Console.KeyAvailable)
-                        {
-                            przycisk = Console.ReadKey(true);
 
-                            if (przycisk.Key == ConsoleKey.Escape)
-                            {
-                                Menu menu = new Menu();
-                            }
-                        }
+                    liczCzas++;
+                    if (liczCzas % 13000 == 0)
+                    {
+                        Console.SetCursorPosition(50, 16);
+                        Console.WriteLine("                             ");
+                    }
+                    if (liczCzas % 15000 == 0)
+                    {
+                        Console.SetCursorPosition(50, 16);
+                        Console.WriteLine("*Wcisnij ESC aby kontynuować*");
+                        liczCzas = 0;
                     }
 
+                    if (Console.KeyAvailable)
+                    {
+                        przycisk = Console.ReadKey(true);
+
+                        if (przycisk.Key == ConsoleKey.Escape)
+                        {
+                            Console.ResetColor();
+                            Poziom1 poziom = new Poziom1();
+                        }
+                    }
                 }
+
+            }
 
             if (Console.KeyAvailable) //Sprawdza czy jest wciśnięty przycisk
-                {
-                    przycisk = Console.ReadKey(true); //Przypisanie przycisku który klikneło się na klawiaturze
+            {
+                przycisk = Console.ReadKey(true); //Przypisanie przycisku który klikneło się na klawiaturze
 
-                    Console.SetCursorPosition(postac.GetX(), postac.GetY());
-                    Console.Write("  ");
-
-                    if (przycisk.Key == ConsoleKey.UpArrow || przycisk.Key == ConsoleKey.W) //Jeżeli naciśnięta strzałka w górę lub "w"
-                    {
-                        if (postac.GetY() >= 6) //Górna granica mapy
-                        {
-                            if ((postac.GetX() >= 31 && postac.GetX() <= 51 && postac.GetY() == 30) || (postac.GetX() >= 67 && postac.GetX() <= 105 && postac.GetY() == 22)) //Kordynaty przeszkody
-                            {
-
-                            }
-                            else
-                            {
-                                postac = new Postac(postac.GetX(), postac.GetY() - 1); //Przzesuń postać w górę
-                            }
-                        }
-                    }
-                    if (przycisk.Key == ConsoleKey.DownArrow || przycisk.Key == ConsoleKey.S) //Jeżeli naciśnięta strzałka w dół lub "s"
-                    {
-                        if (postac.GetY() <= 31) //Dolna granica mapy
-                        {
-                            if ((postac.GetX() >= 31 && postac.GetX() <= 51 && postac.GetY() == 22) || (postac.GetX() >= 67 && postac.GetX() <= 105 && postac.GetY() == 11)) //Kordynaty przeszkody
-                            {
-
-                            }
-                            else
-                            {
-                                postac = new Postac(postac.GetX(), postac.GetY() + 1); //Przesuń postać w dół
-                            }
-                        }
-                    }
-                    if (przycisk.Key == ConsoleKey.LeftArrow || przycisk.Key == ConsoleKey.A) //Jeżeli naciśnięta strzałka w lewo lub "a"
-                    {
-                        if (postac.GetX() >= 21) //Lewa granica mapy
-                        {
-                            if ((postac.GetY() <= 29 && postac.GetY() >= 23 && postac.GetX() == 52) || (postac.GetY() >= 12 && postac.GetY() <= 21 && postac.GetX() == 106)) //Kordynaty przeszkody
-                            {
-
-                            }
-                            else
-                            {
-                                postac = new Postac(postac.GetX() - 1, postac.GetY()); //Przesuń postać w lewo
-                            }
-                        }
-                    }
-                    if (przycisk.Key == ConsoleKey.RightArrow || przycisk.Key == ConsoleKey.D) //Jeżeli naciśnięta strzałka w prawo lub "d"
-                    {
-                        if (postac.GetX() <= 109) //Prawa granica mapy
-                        {
-                            if ((postac.GetY() <= 29 && postac.GetY() >= 23 && postac.GetX() == 30) || (postac.GetY() >= 12 && postac.GetY() <= 21 && postac.GetX() == 66)) //Kordynaty przeszkody
-                            {
-
-                            }
-                            else
-                            {
-                                postac = new Postac(postac.GetX() + 1, postac.GetY()); //Przesuń postać w prawo
-                            }
-                        }
-                    }
-
-                }
-
-
-                //Ustaw pozycję postaci i narysują postać
                 Console.SetCursorPosition(postac.GetX(), postac.GetY());
-                Console.Write("██");
-                Console.SetCursorPosition(0, 0);
+                Console.Write("  ");
 
-                //DO USUNIĘCIA
-                Console.SetCursorPosition(2, 2);
-                Console.Write($"X: {postac.GetX()}  Y: {postac.GetY()}");
-
-
-                //Jeżeli postać jest na kordynatach bramy do poziomu numer 2
-                if (postac.GetX() >= 64 && postac.GetX() <= 66 && postac.GetY() >= 5 && postac.GetY() <= 6)
+                if (przycisk.Key == ConsoleKey.UpArrow || przycisk.Key == ConsoleKey.W) //Jeżeli naciśnięta strzałka w górę lub "w"
                 {
-                    Poziom2 poziom2 = new Poziom2(); //Przenieś do poziomu drugiego
+                    if (postac.GetY() >= 6) //Górna granica mapy
+                    {
+                        if ((postac.GetX() >= 31 && postac.GetX() <= 51 && postac.GetY() == 30) || (postac.GetX() >= 67 && postac.GetX() <= 105 && postac.GetY() == 22)) //Kordynaty przeszkody
+                        {
+
+                        }
+                        else
+                        {
+                            postac = new Postac(postac.GetX(), postac.GetY() - 1); //Przzesuń postać w górę
+                        }
+                    }
                 }
+                if (przycisk.Key == ConsoleKey.DownArrow || przycisk.Key == ConsoleKey.S) //Jeżeli naciśnięta strzałka w dół lub "s"
+                {
+                    if (postac.GetY() <= 31) //Dolna granica mapy
+                    {
+                        if ((postac.GetX() >= 31 && postac.GetX() <= 51 && postac.GetY() == 22) || (postac.GetX() >= 67 && postac.GetX() <= 105 && postac.GetY() == 11)) //Kordynaty przeszkody
+                        {
+
+                        }
+                        else
+                        {
+                            postac = new Postac(postac.GetX(), postac.GetY() + 1); //Przesuń postać w dół
+                        }
+                    }
+                }
+                if (przycisk.Key == ConsoleKey.LeftArrow || przycisk.Key == ConsoleKey.A) //Jeżeli naciśnięta strzałka w lewo lub "a"
+                {
+                    if (postac.GetX() >= 21) //Lewa granica mapy
+                    {
+                        if ((postac.GetY() <= 29 && postac.GetY() >= 23 && postac.GetX() == 52) || (postac.GetY() >= 12 && postac.GetY() <= 21 && postac.GetX() == 106)) //Kordynaty przeszkody
+                        {
+
+                        }
+                        else
+                        {
+                            postac = new Postac(postac.GetX() - 1, postac.GetY()); //Przesuń postać w lewo
+                        }
+                    }
+                }
+                if (przycisk.Key == ConsoleKey.RightArrow || przycisk.Key == ConsoleKey.D) //Jeżeli naciśnięta strzałka w prawo lub "d"
+                {
+                    if (postac.GetX() <= 109) //Prawa granica mapy
+                    {
+                        if ((postac.GetY() <= 29 && postac.GetY() >= 23 && postac.GetX() == 30) || (postac.GetY() >= 12 && postac.GetY() <= 21 && postac.GetX() == 66)) //Kordynaty przeszkody
+                        {
+
+                        }
+                        else
+                        {
+                            postac = new Postac(postac.GetX() + 1, postac.GetY()); //Przesuń postać w prawo
+                        }
+                    }
+                }
+
             }
-        
+
+
+            //Ustaw pozycję postaci i narysują postać
+            Console.SetCursorPosition(postac.GetX(), postac.GetY());
+            Console.Write("██");
+            Console.SetCursorPosition(0, 0);
+
+
+            //Jeżeli postać jest na kordynatach bramy do poziomu numer 2
+            if (postac.GetX() >= 64 && postac.GetX() <= 66 && postac.GetY() >= 5 && postac.GetY() <= 6)
+            {
+                czas += stoper.ElapsedMilliseconds;
+                stoper.Stop();
+                Poziom2 poziom2 = new Poziom2(czas); //Przenieś do poziomu drugiego
+            }
+        }
+
     }
 
 }
-
