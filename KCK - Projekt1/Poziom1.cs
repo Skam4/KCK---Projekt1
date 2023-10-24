@@ -1,14 +1,4 @@
 ﻿using KCK___Projekt1;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.Serialization.Formatters;
-using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
-using System.Transactions;
 using System.Diagnostics;
 
 
@@ -18,10 +8,11 @@ internal class Poziom1
     Postac postac = new Postac(60, 30);
     private ConsoleKeyInfo przycisk;
     private Stopwatch stoper = new Stopwatch();
-    long czas;
+    private long czas;
 
-    public Poziom1()
+    public Poziom1(long czas)
     {
+        this.czas = czas;
         stoper.Start();
         Rysuj();
 
@@ -153,6 +144,14 @@ internal class Poziom1
         {
             Thread.Sleep(1);
 
+            // Wyświetl czas na ekranie.
+            long pozostalyCzas = stoper.ElapsedMilliseconds;
+            Console.SetCursorPosition(62, 0);
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
+            Console.Write("Czas: " + (pozostalyCzas + czas) / 1000 + " s");
+            Console.ResetColor();
+            Console.SetCursorPosition(0, 0);
+
             //Ustaw pozycję postaci i narysują postać
             Console.SetCursorPosition(postac.GetX(), postac.GetY());
             Console.Write("██");
@@ -201,7 +200,8 @@ internal class Poziom1
                         if (przycisk.Key == ConsoleKey.Spacebar)
                         {
                             Console.ResetColor();
-                            Poziom1 poziom = new Poziom1();
+                            stoper.Restart();
+                            Poziom1 poziom = new Poziom1(czas);
                         }
                     }
                 }

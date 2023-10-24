@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Media;
-using System.Windows;
-using NAudio.Wave;
+﻿using System.Media;
 
 internal class Opcje
 {
@@ -103,7 +96,6 @@ internal class Opcje
                 if(przycisk.Key == ConsoleKey.Escape)
                 {
                     Menu menu = new Menu();
-                    
                 }
             }
         }

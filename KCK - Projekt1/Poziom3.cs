@@ -1,12 +1,4 @@
 ﻿using KCK___Projekt1;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.Serialization.Formatters;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
 using System.Diagnostics;
 
 
@@ -19,7 +11,7 @@ internal class Poziom3
 
     private long czas;
 
-    int czasownik = 0;  
+    int czasownik = 0;
 
     private int EnemyX1 = 40;
     private int EnemyY1 = 7;
@@ -89,158 +81,51 @@ internal class Poziom3
         Console.Write("██");
         Console.SetCursorPosition(0, 0);
 
-        //Ustaw pozycję pierwszego przeciwnika i narysują postać
-        Console.SetCursorPosition(EnemyX1, EnemyY1);
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.Write("██");
-        Console.ResetColor();
-        Console.SetCursorPosition(0, 0);
-
-        //Ustaw pozycję drugiego przeciwnika i narysują postać
-        Console.SetCursorPosition(EnemyX2, EnemyY2);
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.Write("██");
-        Console.ResetColor();
-        Console.SetCursorPosition(0, 0);
-
-        //Ustaw pozycję trzeciego przeciwnika i narysują postać
-        Console.SetCursorPosition(EnemyX3, EnemyY3);
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.Write("██");
-        Console.ResetColor();
-        Console.SetCursorPosition(0, 0);
-
-        //Ustaw pozycję czwartego przeciwnika i narysują postać
-        Console.SetCursorPosition(EnemyX4, EnemyY4);
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.Write("██");
-        Console.ResetColor();
-        Console.SetCursorPosition(0, 0);
-
-        //Ustaw pozycję piątego przeciwnika i narysują postać
-        Console.SetCursorPosition(EnemyX5, EnemyY5);
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.Write("██");
-        Console.ResetColor();
-        Console.SetCursorPosition(0, 0);
+        //Ustaw pozycję przeciwnika i narysują postać
+        RysujPrzeciwnika(EnemyX1, EnemyY1);
+        RysujPrzeciwnika(EnemyX2, EnemyY2);
+        RysujPrzeciwnika(EnemyX3, EnemyY3);
+        RysujPrzeciwnika(EnemyX4, EnemyY4);
+        RysujPrzeciwnika(EnemyX5, EnemyY5);
 
         for (; ; )
         {
             Thread.Sleep(1);
 
-            czasownik++;
-            if(czasownik >= 10000) { czasownik = 0; }
+            // Wyświetl czas na ekranie.
+            long pozostalyCzas = stoper.ElapsedMilliseconds;
+            Console.SetCursorPosition(62, 0);
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
+            Console.Write("Czas: " + (pozostalyCzas + czas) / 1000 + " s");
+            Console.ResetColor();
+            Console.SetCursorPosition(0, 0);
 
-            //Przeciwnik pierwszy:
-            if(czasownik % 10 == 0)
-            {
-                Console.SetCursorPosition(EnemyX1, EnemyY1);
-                Console.Write("  ");
+            czasownik++; //Szybkość przeciwników zależy od "czasownika"
+            if (czasownik >= 10000) 
+                czasownik = 0;
 
-                if (postac.GetX() > EnemyX1)
-                    EnemyX1++;
-                if (postac.GetX() < EnemyX1)
-                    EnemyX1--;
-                if(postac.GetY() > EnemyY1)
-                    EnemyY1++;
-                if(postac.GetY()  < EnemyY1)
-                    EnemyY1--;
+            //RYSOWANIE PRZECIWNIKÓW
+            //Przeciwnik 1
+            if (czasownik % 10 == 0)
+                (EnemyX1, EnemyY1) = PrzesunPrzeciwnika(EnemyX1, EnemyY1);
 
-                Console.SetCursorPosition(EnemyX1, EnemyY1);
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("██");
-                Console.ResetColor();
-                Console.SetCursorPosition(0, 0);
-            }
-
-            //Przeciwnik drugi:
+            //Przeciwnik 2
             if (czasownik % 15 == 0)
-            {
-                Console.SetCursorPosition(EnemyX2, EnemyY2);
-                Console.Write("  ");
+                (EnemyX2, EnemyY2) = PrzesunPrzeciwnika(EnemyX2, EnemyY2);
 
-                if (postac.GetX() > EnemyX2)
-                    EnemyX2++;
-                if (postac.GetX() < EnemyX2)
-                    EnemyX2--;
-                if (postac.GetY() > EnemyY2)
-                    EnemyY2++;
-                if (postac.GetY() < EnemyY2)
-                    EnemyY2--;
-
-                Console.SetCursorPosition(EnemyX2, EnemyY2);
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("██");
-                Console.ResetColor();
-                Console.SetCursorPosition(0, 0);
-            }
-
-            //Przeciwnik trzeci:
-            if (czasownik % 25 == 0)
-            {
-                Console.SetCursorPosition(EnemyX3, EnemyY3);
-                Console.Write("  ");
-
-                if (postac.GetX() > EnemyX3)
-                    EnemyX3++;
-                if (postac.GetX() < EnemyX3)
-                    EnemyX3--;
-                if (postac.GetY() > EnemyY3)
-                    EnemyY3++;
-                if (postac.GetY() < EnemyY3)
-                    EnemyY3--;
-
-                Console.SetCursorPosition(EnemyX3, EnemyY3);
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("██");
-                Console.ResetColor();
-                Console.SetCursorPosition(0, 0);
-            }
-
-            //Przeciwnik czwarty:
+            //Przeciwnik 3 i 4
             if (czasownik % 20 == 0)
             {
-                Console.SetCursorPosition(EnemyX4, EnemyY4);
-                Console.Write("  ");
-
-                if (postac.GetX() > EnemyX4)
-                    EnemyX4++;
-                if (postac.GetX() < EnemyX4)
-                    EnemyX4--;
-                if (postac.GetY() > EnemyY4)
-                    EnemyY4++;
-                if (postac.GetY() < EnemyY4)
-                    EnemyY4--;
-
-                Console.SetCursorPosition(EnemyX4, EnemyY4);
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("██");
-                Console.ResetColor();
-                Console.SetCursorPosition(0, 0);
+                (EnemyX3, EnemyY3) = PrzesunPrzeciwnika(EnemyX3, EnemyY3);
+                (EnemyX4, EnemyY4) = PrzesunPrzeciwnika(EnemyX4, EnemyY4);
             }
 
-            //Przeciwnik czwarty:
+            // Przeciwnik 5
             if (czasownik % 25 == 0)
-            {
-                Console.SetCursorPosition(EnemyX5, EnemyY5);
-                Console.Write("  ");
+                (EnemyX5, EnemyY5) = PrzesunPrzeciwnika(EnemyX5, EnemyY5);
 
-                if (postac.GetX() > EnemyX5)
-                    EnemyX5++;
-                if (postac.GetX() < EnemyX5)
-                    EnemyX5--;
-                if (postac.GetY() > EnemyY5)
-                    EnemyY5++;
-                if (postac.GetY() < EnemyY5)
-                    EnemyY5--;
 
-                Console.SetCursorPosition(EnemyX5, EnemyY5);
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("██");
-                Console.ResetColor();
-                Console.SetCursorPosition(0, 0);
-            }
-
+            //PORUSZANIE POSTACIĄ
             if (Console.KeyAvailable) //Sprawdza czy jest wciśnięty przycisk
             {
                 przycisk = Console.ReadKey(true); //Przypisanie przycisku który klikneło się na klawiaturze
@@ -276,6 +161,12 @@ internal class Poziom3
                         postac = new Postac(postac.GetX() + 1, postac.GetY()); //Przesuń postać w prawo
                     }
                 }
+                if (przycisk.Key == ConsoleKey.Escape) //Wyjdź do menu
+                {
+                    Console.ResetColor();
+                    stoper.Stop();
+                    Menu menu = new Menu();
+                }
 
             }
             //Ustaw pozycję postaci i narysują postać
@@ -283,7 +174,7 @@ internal class Poziom3
             Console.Write("██");
             Console.SetCursorPosition(0, 0);
 
-            //Jeżeli postać jest na kordynatach bramy do poziomu numer 2
+            //Jeżeli postać jest na kordynatach bramy
             if (postac.GetX() >= 64 && postac.GetX() <= 66 && postac.GetY() >= 3 && postac.GetY() <= 4)
             {
                 this.czas += stoper.ElapsedMilliseconds;
@@ -291,30 +182,32 @@ internal class Poziom3
                 Wyniki wynik = new Wyniki(czas); //Przenieś do Wyników
             }
 
+            //JEŻELI POSTAĆ ZOSTAŁA ZABITA
             if (CzyTrafiony())
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.SetCursorPosition(54, 15);
+                Console.SetCursorPosition(56, 15);
                 Console.WriteLine("Dopadł cie"); //Komunikat o śmierci gracza
-                Console.SetCursorPosition(50, 16);
+                Console.SetCursorPosition(0, 0);
 
                 this.czas += stoper.ElapsedMilliseconds;
                 stoper.Stop();
 
-                int liczCzas = 0; //zmienna pomocnicza, do migania wiadomości
+                int liczCzas = 10000; //zmienna pomocnicza, do migania wiadomości
 
                 for (; ; )
                 {
+                    //Wyświetlenie wiadomości po śmierci gracza
                     liczCzas++;
                     if (liczCzas % 13000 == 0)
                     {
                         Console.SetCursorPosition(50, 16);
-                        Console.WriteLine("                             ");
+                        Console.WriteLine("                               ");
                     }
                     if (liczCzas % 15000 == 0)
                     {
                         Console.SetCursorPosition(50, 16);
-                        Console.WriteLine("*Wcisnij ESC aby kontynuować*");
+                        Console.WriteLine("*Wcisnij SPACE aby kontynuować*");
                         liczCzas = 0;
                     }
 
@@ -322,10 +215,17 @@ internal class Poziom3
                     {
                         przycisk = Console.ReadKey(true);
 
+                        if (przycisk.Key == ConsoleKey.Spacebar)
+                        {
+                            Console.ResetColor();
+                            stoper.Restart();
+                            Poziom3 poziom = new Poziom3(czas);
+                        }
                         if (przycisk.Key == ConsoleKey.Escape)
                         {
                             Console.ResetColor();
-                            Poziom3 poziom = new Poziom3(czas);
+                            stoper.Stop();
+                            Menu menu = new Menu();
                         }
                     }
                 }
@@ -334,17 +234,40 @@ internal class Poziom3
         }
     }
 
-    public bool CzyTrafiony()
+    private bool CzyTrafiony() //Czy nasz bohater został dorwany przez przeciwnika
     {
         if ((EnemyX1 == postac.GetX() && EnemyY1 == postac.GetY()) || (EnemyX2 == postac.GetX() && EnemyY2 == postac.GetY()) || (EnemyX3 == postac.GetX() && EnemyY3 == postac.GetY()) || (EnemyX4 == postac.GetX() && EnemyY4 == postac.GetY()) || (EnemyX5 == postac.GetX() && EnemyY5 == postac.GetY()))
         {
             return true;
         }
-        if ((EnemyX1+1 == postac.GetX() && EnemyY1 == postac.GetY()) || (EnemyX2+1 == postac.GetX() && EnemyY2 == postac.GetY()) || (EnemyX3+1 == postac.GetX() && EnemyY3 == postac.GetY()) || (EnemyX4+1 == postac.GetX() && EnemyY4 == postac.GetY()) || (EnemyX5+1 == postac.GetX() && EnemyY5 == postac.GetY()))
+        if ((EnemyX1 + 1 == postac.GetX() && EnemyY1 == postac.GetY()) || (EnemyX2 + 1 == postac.GetX() && EnemyY2 == postac.GetY()) || (EnemyX3 + 1 == postac.GetX() && EnemyY3 == postac.GetY()) || (EnemyX4 + 1 == postac.GetX() && EnemyY4 == postac.GetY()) || (EnemyX5 + 1 == postac.GetX() && EnemyY5 == postac.GetY()))
         {
             return true;
         }
         return false;
+    }
+
+    private (int x, int y) PrzesunPrzeciwnika(int x, int y)
+    {
+        Console.SetCursorPosition(x, y);
+        Console.Write("  ");
+
+        if (postac.GetX() > x) x++;
+        if (postac.GetX() < x) x--;
+        if (postac.GetY() > y) y++;
+        if (postac.GetY() < y) y--;
+
+        RysujPrzeciwnika(x, y);
+        return (x, y);
+    }
+
+    private void RysujPrzeciwnika(int x, int y)
+    {
+        Console.SetCursorPosition(x, y);
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.Write("██");
+        Console.ResetColor();
+        Console.SetCursorPosition(0, 0);
     }
 }
 

@@ -1,10 +1,4 @@
 ﻿using KCK___Projekt1;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 
 internal class Menu
 {
@@ -105,8 +99,7 @@ internal class Menu
 
                 if(przycisk.Key == ConsoleKey.D1) //Jeżeli wciśniemy 1 to idź do poziomu 1
                 {
-                    Poziom1 poziom = new Poziom1();
-
+                    Poziom1 poziom = new Poziom1(0);
                 }
                 if (przycisk.Key == ConsoleKey.D2) //Jeżeli wciśniemy 2 to idź do opcji
                 {

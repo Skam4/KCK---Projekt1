@@ -1,13 +1,4 @@
 ﻿using KCK___Projekt1;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.Serialization.Formatters;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-using System.Transactions;
 using System.Diagnostics;
 
 internal class Poziom2
@@ -92,171 +83,44 @@ internal class Poziom2
         for (; ; )
         {
             Thread.Sleep(1);
-            czas_strzalka++;
+
+            // Wyświetl czas na ekranie.
+            long pozostalyCzas = stoper.ElapsedMilliseconds;
+            Console.SetCursorPosition(62, 0);
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
+            Console.Write("Czas: " + (pozostalyCzas + czas) / 1000 + " s");
+            Console.ResetColor();
+            Console.SetCursorPosition(0, 0);
+
+            czas_strzalka++; //zmienna pomagająca ustalić prędkość strzałki
             if (czas_strzalka >= 10000) { czas_strzalka = 0; }
 
+            //RYSUJ STRZAŁKI
             if (czas_strzalka % 1 == 0)
             {
-                Console.SetCursorPosition(Strzalka1X + 1, Strzalka1Y);
-                Console.Write(" ");
-
-                Strzalka1X--;
-
-                if (Strzalka1X == 20)
-                {
-                    Console.SetCursorPosition(Strzalka1X + 1, Strzalka1Y);
-                    Console.Write(" ");
-                    Strzalka1X = 109;
-                }
-
-                Console.SetCursorPosition(Strzalka1X, Strzalka1Y); //Ustaw pozycję kursora na nową pozycję strzałki
-                Console.ForegroundColor = ConsoleColor.Red; //Ustaw kolor czerowny
-                Console.Write("<-"); //Narysuj strzłkę
-                Console.ResetColor(); //Zresetuj ustawiony wcześniej kolor
-                Console.SetCursorPosition(0, 0);
-
+                (Strzalka1X, Strzalka1Y) = PrzesunStrzalkeLewo(Strzalka1X, Strzalka1Y);
+                (Strzalka5X, Strzalka5Y) = PrzesunStrzalkePrawo(Strzalka5X, Strzalka5Y);
             }
+
             if (czas_strzalka % 2 == 0)
             {
-                Console.SetCursorPosition(Strzalka2X + 1, Strzalka2Y);
-                Console.Write(" ");
-
-                Strzalka2X--;
-
-                if (Strzalka2X == 20)
-                {
-                    Console.SetCursorPosition(Strzalka2X + 1, Strzalka2Y);
-                    Console.Write(" ");
-                    Strzalka2X = 109;
-                }
-
-                Console.SetCursorPosition(Strzalka2X, Strzalka2Y); //Ustaw pozycję kursora na nową pozycję strzałki
-                Console.ForegroundColor = ConsoleColor.Red; //Ustaw kolor czerowny
-                Console.Write("<-"); //Narysuj strzłkę
-                Console.ResetColor(); //Zresetuj ustawiony wcześniej kolor
-                Console.SetCursorPosition(0, 0);
+                (Strzalka2X, Strzalka2Y) = PrzesunStrzalkeLewo(Strzalka2X, Strzalka2Y);
+                (Strzalka6X, Strzalka6Y) = PrzesunStrzalkePrawo(Strzalka6X, Strzalka6Y);
             }
+
             if (czas_strzalka % 3 == 0)
             {
-                Console.SetCursorPosition(Strzalka3X + 1, Strzalka3Y);
-                Console.Write(" ");
-
-                Strzalka3X--;
-
-                if (Strzalka3X == 20)
-                {
-                    Console.SetCursorPosition(Strzalka3X + 1, Strzalka3Y);
-                    Console.Write(" ");
-                    Strzalka3X = 109;
-                }
-
-                Console.SetCursorPosition(Strzalka3X, Strzalka3Y); //Ustaw pozycję kursora na nową pozycję strzałki
-                Console.ForegroundColor = ConsoleColor.Red; //Ustaw kolor czerowny
-                Console.Write("<-"); //Narysuj strzłkę
-                Console.ResetColor(); //Zresetuj ustawiony wcześniej kolor
-                Console.SetCursorPosition(0, 0);
+                (Strzalka3X, Strzalka3Y) = PrzesunStrzalkeLewo(Strzalka3X, Strzalka3Y);
+                (Strzalka7X, Strzalka7Y) = PrzesunStrzalkePrawo(Strzalka7X, Strzalka7Y);
             }
+
             if (czas_strzalka % 5 == 0)
             {
-                Console.SetCursorPosition(Strzalka4X + 1, Strzalka4Y);
-                Console.Write(" ");
-
-                Strzalka4X--;
-
-                if (Strzalka4X == 20)
-                {
-                    Console.SetCursorPosition(Strzalka4X + 1, Strzalka4Y);
-                    Console.Write(" ");
-                    Strzalka4X = 109;
-                }
-
-                Console.SetCursorPosition(Strzalka4X, Strzalka4Y); //Ustaw pozycję kursora na nową pozycję strzałki
-                Console.ForegroundColor = ConsoleColor.Red; //Ustaw kolor czerowny
-                Console.Write("<-"); //Narysuj strzłkę
-                Console.ResetColor(); //Zresetuj ustawiony wcześniej kolor
-                Console.SetCursorPosition(0, 0);
+                (Strzalka4X, Strzalka4Y) = PrzesunStrzalkeLewo(Strzalka4X, Strzalka4Y);
+                (Strzalka8X, Strzalka8Y) = PrzesunStrzalkePrawo(Strzalka8X, Strzalka8Y);
             }
 
-            if (czas_strzalka % 4 == 0)
-            {
-                Console.SetCursorPosition(Strzalka5X - 1, Strzalka5Y);
-                Console.Write(" ");
 
-                Strzalka5X++;
-
-                if (Strzalka5X == 109)
-                {
-                    Console.SetCursorPosition(Strzalka5X - 1, Strzalka5Y);
-                    Console.Write("  ");
-                    Strzalka5X = 21;
-                }
-
-                Console.SetCursorPosition(Strzalka5X, Strzalka5Y); //Ustaw pozycję kursora na nową pozycję strzałki
-                Console.ForegroundColor = ConsoleColor.Red; //Ustaw kolor czerowny
-                Console.Write("->"); //Narysuj strzłkę
-                Console.ResetColor(); //Zresetuj ustawiony wcześniej kolor
-                Console.SetCursorPosition(0, 0);
-            }
-            if (czas_strzalka % 2 == 0)
-            {
-                Console.SetCursorPosition(Strzalka6X - 1, Strzalka6Y);
-                Console.Write(" ");
-
-                Strzalka6X++;
-
-                if (Strzalka6X == 109)
-                {
-                    Console.SetCursorPosition(Strzalka6X - 1, Strzalka6Y);
-                    Console.Write("  ");
-                    Strzalka6X = 21;
-                }
-
-                Console.SetCursorPosition(Strzalka6X, Strzalka6Y); //Ustaw pozycję kursora na nową pozycję strzałki
-                Console.ForegroundColor = ConsoleColor.Red; //Ustaw kolor czerowny
-                Console.Write("->"); //Narysuj strzłkę
-                Console.ResetColor(); //Zresetuj ustawiony wcześniej kolor
-                Console.SetCursorPosition(0, 0);
-            }
-            if (czas_strzalka % 3 == 0)
-            {
-                Console.SetCursorPosition(Strzalka7X - 1, Strzalka7Y);
-                Console.Write(" ");
-
-                Strzalka7X++;
-
-                if (Strzalka7X == 109)
-                {
-                    Console.SetCursorPosition(Strzalka7X - 1, Strzalka7Y);
-                    Console.Write("  ");
-                    Strzalka7X = 21;
-                }
-
-                Console.SetCursorPosition(Strzalka7X, Strzalka7Y); //Ustaw pozycję kursora na nową pozycję strzałki
-                Console.ForegroundColor = ConsoleColor.Red; //Ustaw kolor czerowny
-                Console.Write("->"); //Narysuj strzłkę
-                Console.ResetColor(); //Zresetuj ustawiony wcześniej kolor
-                Console.SetCursorPosition(0, 0);
-            }
-            if (czas_strzalka % 5 == 0)
-            {
-                Console.SetCursorPosition(Strzalka8X - 1, Strzalka8Y);
-                Console.Write(" ");
-
-                Strzalka8X++;
-
-                if (Strzalka8X == 109)
-                {
-                    Console.SetCursorPosition(Strzalka8X - 1, Strzalka8Y);
-                    Console.Write("  ");
-                    Strzalka8X = 21;
-                }
-
-                Console.SetCursorPosition(Strzalka8X, Strzalka8Y); //Ustaw pozycję kursora na nową pozycję strzałki
-                Console.ForegroundColor = ConsoleColor.Red; //Ustaw kolor czerowny
-                Console.Write("->"); //Narysuj strzłkę
-                Console.ResetColor(); //Zresetuj ustawiony wcześniej kolor
-                Console.SetCursorPosition(0, 0);
-            }
 
             if (Console.KeyAvailable) //Sprawdza czy jest wciśnięty przycisk
             {
@@ -313,6 +177,12 @@ internal class Poziom2
                         }
                     }
                 }
+                if (przycisk.Key == ConsoleKey.Escape) //Wciśnij ESC aby wrócić do Menu
+                {
+                    Console.ResetColor();
+                    stoper.Stop();
+                    Menu menu = new Menu();
+                }
 
             }
             //Ustaw pozycję postaci i narysują postać
@@ -332,7 +202,7 @@ internal class Poziom2
             if (CzyTrafiony())
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.SetCursorPosition(54, 15);
+                Console.SetCursorPosition(55, 15);
                 Console.WriteLine("Zostałeś trafiony"); //Komunikat o śmierci gracza
                 Console.SetCursorPosition(50, 16);
                 Console.WriteLine("*Wcisnij SPACE aby kontynuować*");
@@ -364,11 +234,13 @@ internal class Poziom2
                         if (przycisk.Key == ConsoleKey.Spacebar)
                         {
                             Console.ResetColor();
+                            stoper.Restart();
                             Poziom2 poziom = new Poziom2(czas);
                         }
                         if (przycisk.Key == ConsoleKey.Escape)
                         {
                             Console.ResetColor();
+                            stoper.Stop();
                             Menu menu = new Menu();
                         }
                     }
@@ -378,7 +250,7 @@ internal class Poziom2
         }
     }
 
-    public bool CzyTrafiony()
+    private bool CzyTrafiony()
     {
         if ((Strzalka1X == postac.GetX() && Strzalka1Y == postac.GetY()) || ((Strzalka2X == postac.GetX() && Strzalka2Y == postac.GetY())) || (Strzalka3X == postac.GetX() && Strzalka3Y == postac.GetY()) || (Strzalka4X == postac.GetX() && Strzalka4Y == postac.GetY()) || (Strzalka5X + 1 == postac.GetX() && Strzalka5Y == postac.GetY()) || ((Strzalka6X + 1 == postac.GetX() && Strzalka6Y == postac.GetY())) || (Strzalka7X + 1 == postac.GetX() && Strzalka7Y == postac.GetY()) || (Strzalka8X + 1 == postac.GetX() && Strzalka8Y == postac.GetY()))
         {
@@ -386,6 +258,56 @@ internal class Poziom2
         }
         return false;
     }
+
+    private (int x, int y) PrzesunStrzalkePrawo(int x, int y)
+    {
+        int nowyX = x;
+        int nowyY = y;
+
+        Console.SetCursorPosition(nowyX - 1, nowyY);
+        Console.Write(" ");
+
+        nowyX++;
+
+        if (nowyX == 109)
+        {
+            Console.SetCursorPosition(nowyX - 1, nowyY);
+            Console.Write("  ");
+            nowyX = 21;
+        }
+
+        Console.SetCursorPosition(nowyX, nowyY); //Ustaw pozycję kursora na nową pozycję strzałki
+        Console.ForegroundColor = ConsoleColor.Red; //Ustaw kolor czerowny
+        Console.Write("->"); //Narysuj strzłkę
+        Console.ResetColor(); //Zresetuj ustawiony wcześniej kolor
+        Console.SetCursorPosition(0, 0);
+
+        return (nowyX, nowyY);
+    }
+
+    private (int x, int y) PrzesunStrzalkeLewo(int x, int y)
+    {
+        int nowyX = x;
+        int nowyY = y;
+
+        Console.SetCursorPosition(nowyX + 1, nowyY);
+        Console.Write(" ");
+
+        nowyX--;
+
+        if (nowyX == 20)
+        {
+            Console.SetCursorPosition(nowyX + 1, nowyY);
+            Console.Write(" ");
+            nowyX = 109;
+        }
+
+        Console.SetCursorPosition(nowyX, nowyY); //Ustaw pozycję kursora na nową pozycję strzałki
+        Console.ForegroundColor = ConsoleColor.Red; //Ustaw kolor czerowny
+        Console.Write("<-"); //Narysuj strzłkę
+        Console.ResetColor(); //Zresetuj ustawiony wcześniej kolor
+        Console.SetCursorPosition(0, 0);
+
+        return (nowyX, nowyY);
+    }
 }
-
-
