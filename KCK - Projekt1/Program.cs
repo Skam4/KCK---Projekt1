@@ -7,8 +7,8 @@ class Program
     {
         Console.OutputEncoding = Encoding.UTF8;
 
-        Console.SetWindowSize(120, 45); // Ustaw rozmiar konsoli na 120 kolumn x 45 wierszy
-        Console.SetBufferSize(120, 45); // Ustaw rozmiar bufora konsoli
+        Console.SetWindowSize(125, 45); // Ustaw rozmiar konsoli na 120 kolumn x 45 wierszy
+        Console.SetBufferSize(125, 45); // Ustaw rozmiar bufora konsoli
 
         Menu class1 = new Menu();
 

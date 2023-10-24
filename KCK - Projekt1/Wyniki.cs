@@ -19,7 +19,7 @@ namespace KCK___Projekt1
 
             Console.Clear();
 
-            string sciezkaDoPliku = "C:/Users/ostat/Desktop/KCKWyniki.txt";
+            string sciezkaDoPliku = "KCKWyniki.txt";
 
             string zawartoscPliku = File.ReadAllText(sciezkaDoPliku);
 
@@ -62,11 +62,36 @@ namespace KCK___Projekt1
 
                     if (przycisk.Key == ConsoleKey.D1)
                     {
+                        string nazwa = "";
                         Console.SetCursorPosition(30, 22);
                         Console.Write("Wpisz swoją nazwę i kliknij ENTER: ");
-                        string nazwa = Console.ReadLine();    //TRZEBA ZROBIĆ ZAKRES WPISYWANIA NAZWY!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+                        for (; ; )
+                        {
+                            ConsoleKeyInfo keyInfo = Console.ReadKey(true);
 
-                        string fileName = "C:\\Users\\ostat\\Desktop\\wyniki.txt";
+                            if (keyInfo.Key == ConsoleKey.Enter)
+                            {
+                                break; // Zakończ pętlę po naciśnięciu Enter.
+                            }
+                            else if (keyInfo.Key == ConsoleKey.Backspace && nazwa.Length > 0)
+                            {
+                                // Jeśli użytkownik naciśnie Backspace i nazwa nie jest pusta, usuń ostatni znak.
+                                nazwa = nazwa.Substring(0, nazwa.Length - 1);
+                            }
+                            else if (nazwa.Length < 15)
+                            {
+                                // Jeśli długość nazwy jest mniejsza niż 15 znaków, dodaj kolejny znak.
+                                nazwa += keyInfo.KeyChar;
+                            }
+
+                            // Wypisz aktualną zawartość nazwy.
+                            Console.SetCursorPosition(65, 22);
+                            Console.Write(new string(' ', 20)); // Wyczyść poprzednią zawartość
+                            Console.SetCursorPosition(66, 22);
+                            Console.Write(nazwa);
+                        }
+
+                        string fileName = "wyniki.txt";
 
                         using (StreamWriter wyniki = new StreamWriter(fileName, true))
                         {

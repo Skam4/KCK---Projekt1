@@ -105,8 +105,8 @@ internal class Menu
 
                 if(przycisk.Key == ConsoleKey.D1) //Jeżeli wciśniemy 1 to idź do poziomu 1
                 {
-                    Poziom1 poziom = new Poziom1(); 
-                    //Wyniki wyniki = new Wyniki(100);
+                    Poziom1 poziom = new Poziom1();
+
                 }
                 if (przycisk.Key == ConsoleKey.D2) //Jeżeli wciśniemy 2 to idź do opcji
                 {
@@ -123,8 +123,7 @@ internal class Menu
                 if (przycisk.Key == ConsoleKey.D5) //Jeżeli wciśniemy 5 to wyjdź z gry
                 {
                     Console.Clear();
-                    System.Environment.Exit(0);
-                    Console.Clear();
+                    Environment.Exit(0);
                 }
 
             }

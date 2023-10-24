@@ -13,8 +13,8 @@ internal class Opcje
     private byte jeden = 0; //Zmienna pomocnicza, określająca czy opcja numer jeden jest włączona czy wyłączona
     private byte dwa = 0;
 
-    int OryginalnaSzerokoscKonsoli = Console.WindowWidth;
-    int OryginalnaDlugoscKonsoli = Console.WindowHeight;
+    int OryginalnaSzerokoscKonsoli = 125;
+    int OryginalnaDlugoscKonsoli = 45;
 
     public SoundPlayer player = new SoundPlayer();
 
@@ -35,6 +35,14 @@ internal class Opcje
         Console.ForegroundColor= ConsoleColor.DarkYellow;
         Console.WriteLine("                                         Wciśnij ESC aby wrócić do menu.");
         Console.ResetColor();
+
+        if(Console.WindowWidth != 125 && Console.WindowHeight != 45)
+        {
+            Console.SetCursorPosition(66, 10);
+            Console.Write("██");
+            Console.SetCursorPosition(0, 0);
+            dwa = 1;
+        }
 
         for (; ; )
         {
@@ -105,8 +113,6 @@ internal class Opcje
     {
         player.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "muzyka.wav";
         player.Play();
-
-
     }
 }
 

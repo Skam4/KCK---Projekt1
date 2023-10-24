@@ -7,7 +7,7 @@ namespace KCK___Projekt1
 {
     internal class TabelaWynikow
     {
-        string fileName = "C:\\Users\\ostat\\Desktop\\wyniki.txt";
+        string fileName = "wyniki.txt";
         private ConsoleKeyInfo przycisk;
         char[] znakiPliku;
 
@@ -15,7 +15,7 @@ namespace KCK___Projekt1
         {
             Console.Clear();
 
-            string sciezkaDoPliku = "C:/Users/ostat/Desktop/TabelaWynikow.txt";
+            string sciezkaDoPliku = "TabelaWynikow.txt";
 
             string zawartoscPliku = File.ReadAllText(sciezkaDoPliku);
 
@@ -34,7 +34,7 @@ namespace KCK___Projekt1
                 Console.ResetColor();
             }
 
-            Console.SetCursorPosition(44, 38);
+            Console.SetCursorPosition(43, 38);
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.Write("Wciśnij ESC. aby wrócić do MENU.");
             Console.ResetColor();
@@ -79,8 +79,9 @@ namespace KCK___Projekt1
                 Console.SetCursorPosition(40, 9 + pom * 4);
                 Console.Write("                                              ");
                 Console.SetCursorPosition(40, 9 + pom * 4);
-                Console.Write($"{i + 1}. {wyniki[i].Item1}                   {wyniki[i].Item2} sekund");
+                Console.Write($"{i + 1}. {wyniki[i].Item1}            {wyniki[i].Item2} sekund");
                 Console.ResetColor();
+                Console.SetCursorPosition(0, 0);
 
 
                 if ((i + 1) % 7 == 0)
@@ -88,18 +89,38 @@ namespace KCK___Projekt1
 
                     if (wyniki.Count > i + 1) //Narysuj strzałkę w prawo
                     {
-                        Console.SetCursorPosition(100, 21);
+                        Console.SetCursorPosition(94, 17);
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.Write("->");
+                        Console.Write("Naciśnij strzałkę w prawo,");
+                        Console.SetCursorPosition(92, 18);
+                        Console.Write("aby sprawdzić reszte rankingu");
                         Console.ResetColor();
                         Console.SetCursorPosition(0, 0);
                     }
                     if (i > 6) //Narysuj strzałkę w lewo
                     {
-                        Console.SetCursorPosition(15, 21);
+                        Console.SetCursorPosition(3, 17);
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.Write("<-");
+                        Console.Write("Naciśnij strzałkę w lewo,");
+                        Console.SetCursorPosition(7, 18);
+                        Console.Write(" aby wrócić");
                         Console.ResetColor();
+                        Console.SetCursorPosition(0, 0);
+                    }
+                    if((i + 1 == wyniki.Count()) || ((wyniki.Count() % 7 == 0) && (wyniki.Count() - i <= 6)))
+                    {
+                        Console.SetCursorPosition(93, 17);
+                        Console.Write("                            ");
+                        Console.SetCursorPosition(92, 18);
+                        Console.Write("                                ");
+                        Console.SetCursorPosition(0, 0);
+                    }
+                    if(i == 6)
+                    {
+                        Console.SetCursorPosition(3, 17);
+                        Console.Write("                          ");
+                        Console.SetCursorPosition(7, 18);
+                        Console.Write("            ");
                         Console.SetCursorPosition(0, 0);
                     }
 
@@ -109,12 +130,20 @@ namespace KCK___Projekt1
                         {
                             przycisk = Console.ReadKey(true); //Przypisanie przycisku który klikneło się na klawiaturze
 
-                            if (przycisk.Key == ConsoleKey.RightArrow)
+                            if (przycisk.Key == ConsoleKey.RightArrow && wyniki.Count() != i + 1)
                             {
-                                Console.SetCursorPosition(100, 21);
-                                Console.Write("  ");
-                                Console.SetCursorPosition(15, 21);
-                                Console.Write("  ");
+                                //Rysowanie strzałki podczas kliknięcia
+                                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                                Console.SetCursorPosition(111, 19);
+                                Console.Write("_");
+                                Console.SetCursorPosition(107, 20);
+                                Console.Write("____"); Console.Write("\\ "); Console.Write("\\ ");
+                                Console.SetCursorPosition(106, 21);
+                                Console.Write("|____ ) )");
+                                Console.SetCursorPosition(111, 22);
+                                Console.Write("/_/");
+                                Console.ResetColor();
+                                Console.SetCursorPosition(0, 0);
 
                                 if (wyniki.Count - i < 7) //Czyść nieużywane końcowe miejsca w tabeli
                                 {
@@ -125,38 +154,78 @@ namespace KCK___Projekt1
                                     }
                                     Console.SetCursorPosition(0, 0);
                                 }
+                                Thread.Sleep(100);
 
+                                //Odrysowanie strzałki podczas kliknięcia
+                                Console.SetCursorPosition(111, 19);
+                                Console.Write("_");
+                                Console.SetCursorPosition(107, 20);
+                                Console.Write("____"); Console.Write("\\ "); Console.Write("\\ ");
+                                Console.SetCursorPosition(106, 21);
+                                Console.Write("|____ ) )");
+                                Console.SetCursorPosition(111, 22);
+                                Console.Write("/_/");
+                                Console.SetCursorPosition(0, 0);
                                 break;
                             }
                             if (przycisk.Key == ConsoleKey.LeftArrow)
                             {
-                                Console.SetCursorPosition(100, 21);
-                                Console.Write("  ");
-                                Console.SetCursorPosition(15, 21);
-                                Console.Write("  ");
-                                i = i - 7;
-                                break;
-                            }
-                            if (Console.KeyAvailable) //Sprawdza czy jest wciśnięty przycisk
-                            {
-                                przycisk = Console.ReadKey(true); //Przypisanie przycisku który klikneło się na klawiaturze
-
-                                if (przycisk.Key == ConsoleKey.Escape)
+                                if(i > 6) //Jeżeli jesteśmy nie na pierwszej stronie tabeli
                                 {
-                                    Menu menu = new Menu();
+                                    //Rysowanie strzałki podczas kliknięcia
+                                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                                    Console.SetCursorPosition(7, 19);
+                                    Console.Write("_");
+                                    Console.SetCursorPosition(6, 20);
+                                    Console.Write("/ /"); Console.Write("____");
+                                    Console.SetCursorPosition(5, 21);
+                                    Console.Write("( ( ____|");
+                                    Console.SetCursorPosition(6, 22);
+                                    Console.Write("\\_\\");
+                                    Console.ResetColor();
+                                    Console.SetCursorPosition(0, 0);
+                                    Thread.Sleep(100);
+
+                                    i = i - 14;
+
+                                    Console.SetCursorPosition(7, 19);
+                                    Console.Write("_");
+                                    Console.SetCursorPosition(6, 20);
+                                    Console.Write("/ /"); Console.Write("____");
+                                    Console.SetCursorPosition(5, 21);
+                                    Console.Write("( ( ____|");
+                                    Console.SetCursorPosition(6, 22);
+                                    Console.Write("\\_\\");
+                                    Console.SetCursorPosition(0, 0);
+
+                                    break;
                                 }
                             }
+
+                            if (przycisk.Key == ConsoleKey.Escape)
+                            {
+                                Menu menu = new Menu();
+                            }
+
                         }
                     }
                 }
                 if (i + 1 == wyniki.Count) //Jeżeli pętla jest na ostatnim wyniku
                 {
+
+                    Console.SetCursorPosition(93, 17);
+                    Console.Write("                            ");
+                    Console.SetCursorPosition(92, 18);
+                    Console.Write("                                ");
                     Console.SetCursorPosition(0, 0);
-                    if (i > 6) //Narysuj strzałkę w lewo
+
+                    if (i + 1 >= 7)
                     {
-                        Console.SetCursorPosition(15, 21);
+                        Console.SetCursorPosition(3, 17);
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.Write("<-");
+                        Console.Write("Naciśnij strzałkę w lewo,");
+                        Console.SetCursorPosition(7, 18);
+                        Console.Write(" aby wrócić");
                         Console.ResetColor();
                         Console.SetCursorPosition(0, 0);
                     }
@@ -168,11 +237,34 @@ namespace KCK___Projekt1
 
                             if (przycisk.Key == ConsoleKey.LeftArrow)
                             {
-                                Console.SetCursorPosition(100, 21);
-                                Console.Write("  ");
-                                Console.SetCursorPosition(15, 21);
-                                Console.Write("  ");
+                                //Rysowanie strzałki podczas kliknięcia
+                                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                                Console.SetCursorPosition(7, 19);
+                                Console.Write("_");
+                                Console.SetCursorPosition(6, 20);
+                                Console.Write("/ /"); Console.Write("____");
+                                Console.SetCursorPosition(5, 21);
+                                Console.Write("( ( ____|");
+                                Console.SetCursorPosition(6, 22);
+                                Console.Write("\\_\\");
+                                Console.ResetColor();
+                                Console.SetCursorPosition(0, 0);
+                                Thread.Sleep(100);
+
+                                int pom2 = wyniki.Count % 7;
+                                i = i - pom2;
                                 i = i - 7;
+
+                                Console.SetCursorPosition(7, 19);
+                                Console.Write("_");
+                                Console.SetCursorPosition(6, 20);
+                                Console.Write("/ /"); Console.Write("____");
+                                Console.SetCursorPosition(5, 21);
+                                Console.Write("( ( ____|");
+                                Console.SetCursorPosition(6, 22);
+                                Console.Write("\\_\\");
+                                Console.SetCursorPosition(0, 0);
+
                                 break;
                             }
 

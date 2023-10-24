@@ -165,7 +165,7 @@ internal class Poziom1
                 Console.SetCursorPosition(54, 15);
                 Console.WriteLine("Wpadłeś do lawy"); //Komunikat o śmierci gracza
                 Console.SetCursorPosition(50, 16);
-                Console.WriteLine("*Wcisnij ESC aby kontynuować*");
+                Console.WriteLine("*Wcisnij SPACE aby kontynuować*");
 
                 czas += stoper.ElapsedMilliseconds;
                 stoper.Stop();
@@ -179,12 +179,12 @@ internal class Poziom1
                     if (liczCzas % 13000 == 0)
                     {
                         Console.SetCursorPosition(50, 16);
-                        Console.WriteLine("                             ");
+                        Console.WriteLine("                               ");
                     }
                     if (liczCzas % 15000 == 0)
                     {
                         Console.SetCursorPosition(50, 16);
-                        Console.WriteLine("*Wcisnij ESC aby kontynuować*");
+                        Console.WriteLine("*Wcisnij SPACE aby kontynuować*");
                         liczCzas = 0;
                     }
 
@@ -193,6 +193,12 @@ internal class Poziom1
                         przycisk = Console.ReadKey(true);
 
                         if (przycisk.Key == ConsoleKey.Escape)
+                        {
+                            Console.ResetColor();
+                            stoper.Stop();
+                            Menu menu = new Menu();
+                        }
+                        if (przycisk.Key == ConsoleKey.Spacebar)
                         {
                             Console.ResetColor();
                             Poziom1 poziom = new Poziom1();
@@ -264,6 +270,11 @@ internal class Poziom1
                             postac = new Postac(postac.GetX() + 1, postac.GetY()); //Przesuń postać w prawo
                         }
                     }
+                }
+                if (przycisk.Key == ConsoleKey.Escape)
+                {
+                    stoper.Stop();
+                    Menu menu = new Menu();
                 }
 
             }

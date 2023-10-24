@@ -48,7 +48,7 @@ internal class Poziom2
 
         this.czas = czas;
 
-        string sciezkaDoPliku = "C:/Users/ostat/Desktop/KCKPoziom2.txt";
+        string sciezkaDoPliku = "KCKPoziom2.txt";
 
         string zawartoscPliku = File.ReadAllText(sciezkaDoPliku);
 
@@ -269,28 +269,48 @@ internal class Poziom2
                 {
                     if (postac.GetY() >= 4) //Górna granica mapy
                     {
-                        postac = new Postac(postac.GetX(), postac.GetY() - 1); //Przzesuń postać w górę
+                        if((postac.GetX() == 35 && postac.GetY() == 28) || (postac.GetY() != 28) || (postac.GetX() == 93 && postac.GetY() == 28))
+                        {
+                            postac = new Postac(postac.GetX(), postac.GetY() - 1); //Przzesuń postać w górę
+                        }
                     }
                 }
                 if (przycisk.Key == ConsoleKey.DownArrow || przycisk.Key == ConsoleKey.S) //Jeżeli naciśnięta strzałka w dół lub "s"
                 {
                     if (postac.GetY() <= 31) //Dolna granica mapy
                     {
-                        postac = new Postac(postac.GetX(), postac.GetY() + 1); //Przesuń postać w dół
+                        if((postac.GetX() == 35 && postac.GetY() == 26) || (postac.GetY() != 26) || (postac.GetX() == 93 && postac.GetY() == 26))
+                        {
+                            postac = new Postac(postac.GetX(), postac.GetY() + 1); //Przesuń postać w dół
+                        }
                     }
                 }
                 if (przycisk.Key == ConsoleKey.LeftArrow || przycisk.Key == ConsoleKey.A) //Jeżeli naciśnięta strzałka w lewo lub "a"
                 {
                     if (postac.GetX() >= 21) //Lewa granica mapy
                     {
-                        postac = new Postac(postac.GetX() - 1, postac.GetY()); //Przesuń postać w lewo
+                        if((postac.GetY() == 27 && postac.GetX() == 35) || (postac.GetY() == 27 && postac.GetX() == 93))
+                        {
+
+                        }
+                        else
+                        {
+                            postac = new Postac(postac.GetX() - 1, postac.GetY()); //Przesuń postać w lewo
+                        }
                     }
                 }
                 if (przycisk.Key == ConsoleKey.RightArrow || przycisk.Key == ConsoleKey.D) //Jeżeli naciśnięta strzałka w prawo lub "d"
                 {
                     if (postac.GetX() <= 109) //Prawa granica mapy
                     {
-                        postac = new Postac(postac.GetX() + 1, postac.GetY()); //Przesuń postać w prawo
+                        if ((postac.GetY() == 27 && postac.GetX() == 35) || (postac.GetY() == 27 && postac.GetX() == 93))
+                        {
+
+                        }
+                        else
+                        {
+                            postac = new Postac(postac.GetX() + 1, postac.GetY()); //Przesuń postać w prawo
+                        }
                     }
                 }
 
@@ -315,7 +335,7 @@ internal class Poziom2
                 Console.SetCursorPosition(54, 15);
                 Console.WriteLine("Zostałeś trafiony"); //Komunikat o śmierci gracza
                 Console.SetCursorPosition(50, 16);
-                Console.WriteLine("*Wcisnij ESC aby kontynuować*");
+                Console.WriteLine("*Wcisnij SPACE aby kontynuować*");
 
                 this.czas += stoper.ElapsedMilliseconds;
                 stoper.Stop();
@@ -328,12 +348,12 @@ internal class Poziom2
                     if (liczCzas % 13000 == 0)
                     {
                         Console.SetCursorPosition(50, 16);
-                        Console.WriteLine("                             ");
+                        Console.WriteLine("                               ");
                     }
                     if (liczCzas % 15000 == 0)
                     {
                         Console.SetCursorPosition(50, 16);
-                        Console.WriteLine("*Wcisnij ESC aby kontynuować*");
+                        Console.WriteLine("*Wcisnij SPACE aby kontynuować*");
                         liczCzas = 0;
                     }
 
@@ -341,10 +361,15 @@ internal class Poziom2
                     {
                         przycisk = Console.ReadKey(true);
 
-                        if (przycisk.Key == ConsoleKey.Escape)
+                        if (przycisk.Key == ConsoleKey.Spacebar)
                         {
                             Console.ResetColor();
                             Poziom2 poziom = new Poziom2(czas);
+                        }
+                        if (przycisk.Key == ConsoleKey.Escape)
+                        {
+                            Console.ResetColor();
+                            Menu menu = new Menu();
                         }
                     }
                 }

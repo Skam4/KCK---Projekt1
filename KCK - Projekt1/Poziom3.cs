@@ -33,6 +33,9 @@ internal class Poziom3
     private int EnemyX4 = 60;
     private int EnemyY4 = 9;
 
+    private int EnemyX5 = 75;
+    private int EnemyY5 = 8;
+
     private Stopwatch stoper = new Stopwatch();
 
     public Poziom3(long czas)
@@ -43,7 +46,7 @@ internal class Poziom3
 
         stoper.Start();
 
-        string sciezkaDoPliku = "C:/Users/ostat/Desktop/KCKPoziom3.txt";
+        string sciezkaDoPliku = "KCKPoziom3.txt";
 
         string zawartoscPliku = File.ReadAllText(sciezkaDoPliku);
 
@@ -114,6 +117,13 @@ internal class Poziom3
         Console.ResetColor();
         Console.SetCursorPosition(0, 0);
 
+        //Ustaw pozycję piątego przeciwnika i narysują postać
+        Console.SetCursorPosition(EnemyX5, EnemyY5);
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.Write("██");
+        Console.ResetColor();
+        Console.SetCursorPosition(0, 0);
+
         for (; ; )
         {
             Thread.Sleep(1);
@@ -122,7 +132,7 @@ internal class Poziom3
             if(czasownik >= 10000) { czasownik = 0; }
 
             //Przeciwnik pierwszy:
-            if(czasownik % 30 == 0)
+            if(czasownik % 10 == 0)
             {
                 Console.SetCursorPosition(EnemyX1, EnemyY1);
                 Console.Write("  ");
@@ -144,7 +154,7 @@ internal class Poziom3
             }
 
             //Przeciwnik drugi:
-            if (czasownik % 40 == 0)
+            if (czasownik % 15 == 0)
             {
                 Console.SetCursorPosition(EnemyX2, EnemyY2);
                 Console.Write("  ");
@@ -166,7 +176,7 @@ internal class Poziom3
             }
 
             //Przeciwnik trzeci:
-            if (czasownik % 35 == 0)
+            if (czasownik % 25 == 0)
             {
                 Console.SetCursorPosition(EnemyX3, EnemyY3);
                 Console.Write("  ");
@@ -188,7 +198,7 @@ internal class Poziom3
             }
 
             //Przeciwnik czwarty:
-            if (czasownik % 45 == 0)
+            if (czasownik % 20 == 0)
             {
                 Console.SetCursorPosition(EnemyX4, EnemyY4);
                 Console.Write("  ");
@@ -203,6 +213,28 @@ internal class Poziom3
                     EnemyY4--;
 
                 Console.SetCursorPosition(EnemyX4, EnemyY4);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("██");
+                Console.ResetColor();
+                Console.SetCursorPosition(0, 0);
+            }
+
+            //Przeciwnik czwarty:
+            if (czasownik % 25 == 0)
+            {
+                Console.SetCursorPosition(EnemyX5, EnemyY5);
+                Console.Write("  ");
+
+                if (postac.GetX() > EnemyX5)
+                    EnemyX5++;
+                if (postac.GetX() < EnemyX5)
+                    EnemyX5--;
+                if (postac.GetY() > EnemyY5)
+                    EnemyY5++;
+                if (postac.GetY() < EnemyY5)
+                    EnemyY5--;
+
+                Console.SetCursorPosition(EnemyX5, EnemyY5);
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write("██");
                 Console.ResetColor();
@@ -304,7 +336,11 @@ internal class Poziom3
 
     public bool CzyTrafiony()
     {
-        if ((EnemyX1 == postac.GetX() && EnemyY1 == postac.GetY()) || (EnemyX2 == postac.GetX() && EnemyY2 == postac.GetY()) || (EnemyX3 == postac.GetX() && EnemyY3 == postac.GetY()) || (EnemyX4 == postac.GetX() && EnemyY4 == postac.GetY()))
+        if ((EnemyX1 == postac.GetX() && EnemyY1 == postac.GetY()) || (EnemyX2 == postac.GetX() && EnemyY2 == postac.GetY()) || (EnemyX3 == postac.GetX() && EnemyY3 == postac.GetY()) || (EnemyX4 == postac.GetX() && EnemyY4 == postac.GetY()) || (EnemyX5 == postac.GetX() && EnemyY5 == postac.GetY()))
+        {
+            return true;
+        }
+        if ((EnemyX1+1 == postac.GetX() && EnemyY1 == postac.GetY()) || (EnemyX2+1 == postac.GetX() && EnemyY2 == postac.GetY()) || (EnemyX3+1 == postac.GetX() && EnemyY3 == postac.GetY()) || (EnemyX4+1 == postac.GetX() && EnemyY4 == postac.GetY()) || (EnemyX5+1 == postac.GetX() && EnemyY5 == postac.GetY()))
         {
             return true;
         }
