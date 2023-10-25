@@ -74,9 +74,11 @@ namespace KCK___Projekt1
                 }
                 pom = i % 7;
                 Console.SetCursorPosition(40, 9 + pom * 4);
-                Console.Write("                                              ");
+                Console.Write("                                               ");
                 Console.SetCursorPosition(40, 9 + pom * 4);
-                Console.Write($"{i + 1}. {wyniki[i].Item1}            {wyniki[i].Item2} sekund");
+                Console.Write($"{i + 1}. {wyniki[i].Item1}");
+                Console.SetCursorPosition(67, 9 + pom * 4);
+                Console.Write($"{wyniki[i].Item2} sekund");
                 Console.ResetColor();
                 Console.SetCursorPosition(0, 0);
 
@@ -88,9 +90,9 @@ namespace KCK___Projekt1
                     {
                         Console.SetCursorPosition(94, 17);
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.Write("Naciśnij strzałkę w prawo,");
+                        Console.Write(" Naciśnij strzałkę w prawo,");
                         Console.SetCursorPosition(92, 18);
-                        Console.Write("aby sprawdzić reszte rankingu");
+                        Console.Write(" aby sprawdzić reszte rankingu");
                         Console.ResetColor();
                         Console.SetCursorPosition(0, 0);
                     }

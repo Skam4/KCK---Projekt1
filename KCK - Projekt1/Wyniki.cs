@@ -76,7 +76,7 @@ namespace KCK___Projekt1
                                 // Jeśli użytkownik naciśnie Backspace i nazwa nie jest pusta, usuń ostatni znak.
                                 nazwa = nazwa.Substring(0, nazwa.Length - 1);
                             }
-                            else if (nazwa.Length < 15)
+                            else if (nazwa.Length < 15 && keyInfo.Key != ConsoleKey.Spacebar)
                             {
                                 // Jeśli długość nazwy jest mniejsza niż 15 znaków, dodaj kolejny znak.
                                 nazwa += keyInfo.KeyChar;
