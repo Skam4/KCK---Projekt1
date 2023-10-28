@@ -67,6 +67,11 @@ namespace KCK___Projekt1
                         {
                             ConsoleKeyInfo keyInfo = Console.ReadKey(true);
 
+                            if(keyInfo.Key == ConsoleKey.Escape) 
+                            {
+                                Menu menu = new Menu();
+                            }
+
                             if (keyInfo.Key == ConsoleKey.Enter)
                             {
                                 break; // Zakończ pętlę po naciśnięciu Enter.

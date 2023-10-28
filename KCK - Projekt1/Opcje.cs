@@ -104,7 +104,7 @@ internal class Opcje
     public void GrajMuzyke()
     {
         player.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "muzyka.wav";
-        player.Play();
+        player.Play(); //Włącz muzykę
     }
 }
 

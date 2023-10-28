@@ -144,7 +144,7 @@ namespace KCK___Projekt1
                                 Console.ResetColor();
                                 Console.SetCursorPosition(0, 0);
 
-                                if (wyniki.Count - i < 7) //Czyść nieużywane końcowe miejsca w tabeli
+                                if (wyniki.Count - i <= 7) //Czyść nieużywane końcowe miejsca w tabeli
                                 {
                                     for (int j = 0; j < 7; j++)
                                     {
